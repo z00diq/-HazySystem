@@ -11,7 +11,7 @@ public enum BallState
 }
 public class Ball : MonoBehaviour
 {
-    [SerializeField] public float _damageValue;
+    public float DamageValue;
     [SerializeField] private Rigidbody _ballRigidbody;
     [SerializeField] private Camera _playerCamera;
     [SerializeField] private float _ballSpeed = 10f;
