@@ -13,6 +13,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (_state == State.Idle)
             return;
+        //Debug.Log("Update");
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             _playerRigidbody.velocity = Vector3.left * _playerSpeed;

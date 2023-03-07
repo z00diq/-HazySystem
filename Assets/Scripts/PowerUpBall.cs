@@ -8,6 +8,7 @@ public class PowerUpBall : MonoBehaviour
     [SerializeField] private float _timeOfAction;
     [SerializeField] private float _scalePowerUpBall = 1.4f;
     [SerializeField] private float _increaseDamage;
+    [SerializeField] private ChargeIcon _powerUpBallChargeIcon;
 
     private Ball _ball;
     private float _timer;
@@ -23,7 +24,11 @@ public class PowerUpBall : MonoBehaviour
             PowerUp();
             _timer = 0;
         }
-        _timer += Time.deltaTime;
+        if (_ball.GetState() == State.Active)
+        {
+            _timer += Time.deltaTime;
+        }
+        _powerUpBallChargeIcon.SetChargeValue(_timer, _timeToNextCast);
     }
 
     private void PowerUp()

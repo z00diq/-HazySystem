@@ -35,6 +35,7 @@ public class Ball : MonoBehaviour
                 Shot();
             }
         }
+        
 
         if (transform.position.y < 0)
         {
@@ -79,4 +80,6 @@ public class Ball : MonoBehaviour
         _lineRenderer.enabled = true;
         _currentBallState = State.Idle;
     }
+
+    public State GetState() { return _currentBallState; }   
 }
