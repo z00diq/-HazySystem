@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Threading;
 using UnityEngine;
 
-public enum BallState
+public enum State
 {
     Idle,
     Active
@@ -12,22 +12,25 @@ public enum BallState
 public class Ball : MonoBehaviour
 {
     public float DamageValue;
+
     [SerializeField] private Rigidbody _ballRigidbody;
     [SerializeField] private Camera _playerCamera;
     [SerializeField] private float _ballSpeed = 10f;
     [SerializeField] private float _lowerLimitOfTheDirectionOfMovement = 0.5f;
     [SerializeField] private LineRenderer _lineRenderer;
+    [SerializeField] private Transform _playerTrnasform;
 
     private Vector3 _directionOfMovement;
-    private BallState _currentBallState;
+    private State _currentBallState;
 
 
     void Update()
     {
-        if (_currentBallState == BallState.Idle)
+        if (_currentBallState == State.Idle)
         {
+            transform.position = _playerTrnasform.position + Vector3.up;
             _directionOfMovement = SetDirectionOfMovement();
-            if (Input.GetMouseButton(0) )
+            if (Input.GetMouseButtonDown(0) )
             {
                 Shot();
             }
@@ -43,7 +46,7 @@ public class Ball : MonoBehaviour
     {
         _ballRigidbody.isKinematic = false;
         _ballRigidbody.velocity = _directionOfMovement * _ballSpeed;
-        _currentBallState = BallState.Active;
+        _currentBallState = State.Active;
         _lineRenderer.enabled = false;
     }
 
@@ -69,5 +72,11 @@ public class Ball : MonoBehaviour
         _lineRenderer.positionCount = 2;
         _lineRenderer.SetPosition(0, Vector3.zero);
         _lineRenderer.SetPosition(1, end);
+    }
+    public void ChangeStateToIdle()
+    {
+        _ballRigidbody.isKinematic = true;
+        _lineRenderer.enabled = true;
+        _currentBallState = State.Idle;
     }
 }
