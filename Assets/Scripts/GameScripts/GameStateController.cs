@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class GameStateController : MonoBehaviour
 {
+    public Action OnWin;
+    public Action OnLoose;
+
     [SerializeField] private float _startingGameHazzard;  /*количество заражения при котором игра начинается*/
     [SerializeField] private GameObject _endLevelPanel;
     private float _currentHazzard; /*текущее количество заражения*/ 
@@ -13,17 +16,26 @@ public class GameStateController : MonoBehaviour
 
     private Level _currentLevel;
 
-    private void Start()
-    {
-        _currentGameState = GameState.PrepareGame;
-    }
-
     private void Update()
     {
-        ChangingGameSate();
-
         if (_currentGameState == GameState.Playing)
         {
+            ChangingGameSate();
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (_currentGameState != GameState.Pause)
+                {
+                    _previousGameState = _currentGameState;
+                    _currentGameState = GameState.Pause;
+                    Time.timeScale = 0;
+                }
+                else
+                {
+                    _currentGameState = _previousGameState;
+                    Time.timeScale = 1;
+                }
+            }
             //Активизация игрового процесса
         }
 
@@ -36,32 +48,17 @@ public class GameStateController : MonoBehaviour
         {
             LooseLevel();
         }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (_currentGameState != GameState.Pause)
-            {
-                _previousGameState = _currentGameState;
-                _currentGameState= GameState.Pause;
-                Time.timeScale = 0;
-            }
-            else
-            {
-                _currentGameState = _previousGameState;
-                Time.timeScale = 1;
-            }
-        }
     }
 
     private void LooseLevel()
     {
-        _endLevelPanel.SetActive(true);
+        OnLoose?.Invoke();
         _currentLevel.gameObject.SetActive(false);
     }
 
     private void Winlevel()
     {
-        _endLevelPanel.SetActive(true);
+        OnWin?.Invoke();
         _currentLevel.gameObject.SetActive(false);
     }
 
@@ -86,6 +83,7 @@ public class GameStateController : MonoBehaviour
     public void Initlevel(Level level)
     {
         _currentLevel = level;
+        Instantiate(_currentLevel,transform.position, Quaternion.identity);
         _currentGameState = GameState.PrepareGame;
     }
 }

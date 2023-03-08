@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Level[] _levels;
+    [SerializeField] private GameStateController _gameStateController;
 
-    // Update is called once per frame
-    void Update()
+    [ContextMenu("NextLVL")]
+    public void StartEnabledLevel(int index)
     {
-        
+        _gameStateController.Initlevel(_levels[index]);
     }
 }
