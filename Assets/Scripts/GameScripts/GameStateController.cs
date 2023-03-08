@@ -6,10 +6,12 @@ using UnityEngine;
 public class GameStateController : MonoBehaviour
 {
     [SerializeField] private float _startingGameHazzard;  /*количество заражения при котором игра начинается*/
-
+    [SerializeField] private GameObject _endLevelPanel;
     private float _currentHazzard; /*текущее количество заражения*/ 
     private GameState _currentGameState;
     private GameState _previousGameState;
+
+    private Level _currentLevel;
 
     private void Start()
     {
@@ -53,12 +55,14 @@ public class GameStateController : MonoBehaviour
 
     private void LooseLevel()
     {
-        throw new NotImplementedException();
+        _endLevelPanel.SetActive(true);
+        _currentLevel.gameObject.SetActive(false);
     }
 
     private void Winlevel()
     {
-        throw new NotImplementedException();
+        _endLevelPanel.SetActive(true);
+        _currentLevel.gameObject.SetActive(false);
     }
 
     private void ChangingGameSate()
@@ -77,6 +81,12 @@ public class GameStateController : MonoBehaviour
         {
             _currentGameState = GameState.Defeat;
         }
+    }
+
+    public void Initlevel(Level level)
+    {
+        _currentLevel = level;
+        _currentGameState = GameState.PrepareGame;
     }
 }
 
