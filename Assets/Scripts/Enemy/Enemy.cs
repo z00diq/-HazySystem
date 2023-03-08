@@ -6,10 +6,13 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public static System.Action<float> OnBorn;
+
     public EnemyManager EnemyManager;
 
+    [SerializeField] private float _hazzard;
     [SerializeField] private float _health = 1;
-    [SerializeField] private float _reproductionPeriod = 5;
+    [SerializeField] private float _reproductionPeriod = 1;
     private float _reproductionTimer;
     [SerializeField] private bool _canReproduse;
 
@@ -22,6 +25,7 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
+        OnBorn?.Invoke(_hazzard);
         // add randomness for reproduction period for greater unevenness of the appearance new cells
         _reproductionPeriod += Random.Range(-0.5f, 1f);
         // defence of mistake: negative value in reproductionPeriod;

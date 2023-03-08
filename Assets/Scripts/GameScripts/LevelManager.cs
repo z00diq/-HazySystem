@@ -9,6 +9,6 @@ public class LevelManager : MonoBehaviour
 
     public void StartEnabledLevel(int index)
     {
-        _gameStateController.Initlevel(_levels[index]);
+        _gameStateController.InitLevel(_levels[index]);
     }
 }

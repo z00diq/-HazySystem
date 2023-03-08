@@ -5,35 +5,36 @@ using UnityEngine;
 
 public class GameStateController : MonoBehaviour
 {
-    public Action OnWin;
-    public Action OnLoose;
+    public static Action OnWin;
+    public static Action OnLoose;
 
+    public Level CurrentLevel => _currentLevel;
+
+    //public static Action OnGameStart;
     [SerializeField] private float _startingGameHazzard;  /*количество заражения при котором игра начинается*/
-    [SerializeField] private GameObject _endLevelPanel;
-    [SerializeField] private List<GameObject> _enabledSpells; /*список боступных спеллов для получения игроком*/
+    [SerializeField] private float _deathHazzardLevel;  /*количество заражения при котором игра закончится*/
+    [SerializeField] private List<GameObject> _enabledSpells; /*список lоступных спеллов для получения игроком*/
     private float _currentHazzard; /*текущее количество заражения*/ 
     private GameState _currentGameState;
-    private GameState _previousGameState;
 
     private Level _currentLevel;
+    private bool isPause=false;
 
-    [ContextMenu("SetHazzard")]
-    public void SetHazzard()
+    public void InitLevel(Level level=null)
     {
-        _currentHazzard = 33;
+        if(level != null)
+        {
+            _currentLevel = Instantiate(level, transform.position, Quaternion.identity);
+            _currentLevel.InitLevel(this);
+        }
+        else
+        {
+            _currentLevel.InitLevel();
+        }
 
-    }
-    [ContextMenu("DestroyHazzard")]
-    public void DestroyHazzard()
-    {
-        _currentHazzard = 0;
-    }
-
-    public void Initlevel(Level level)
-    {
-        _currentLevel = Instantiate(level, transform.position, Quaternion.identity);
-        _currentLevel.InitLevel(this);
         _currentGameState = GameState.PrepareGame;
+        _currentHazzard = 0;
+        //OnGameStart?.Invoke();
     }
 
     public void AddNewEnabledSpell(GameObject spell)
@@ -42,45 +43,69 @@ public class GameStateController : MonoBehaviour
             _enabledSpells.Add(spell);
     }
 
+    private void OnEnable()
+    {
+        Enemy.OnBorn += Enemy_OnBorn;
+    }
+
+    private void Enemy_OnBorn(float hazzard)
+    {
+        _currentHazzard += hazzard;
+    }
+
     private void Update()
     {
-        if (_currentGameState == GameState.Playing)
+        switch (_currentGameState)
         {
-            ChangingGameSate();
+            case GameState.PrepareGame:
 
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                if (_currentGameState != GameState.Pause)
+                if (Input.GetKeyDown(KeyCode.Escape))
+                    isPause = !isPause;
+
+                if (_currentHazzard >= _startingGameHazzard)
                 {
-                    _previousGameState = _currentGameState;
-                    _currentGameState = GameState.Pause;
-                    Time.timeScale = 0;
+                    _currentGameState = GameState.Playing;
+                    //SpawnPlayer(playerPrefab); - вызов игрока на арену
                 }
-                else
+
+                break;
+            case GameState.Playing:
+
+                if (Input.GetKeyDown(KeyCode.Escape))
+                    isPause = !isPause;
+                //Активизация игрового процесса
+  
+                if (_currentHazzard == 0)
                 {
-                    _currentGameState = _previousGameState;
-                    Time.timeScale = 1;
+                    _currentGameState = GameState.Win;
                 }
-            }
-            //Активизация игрового процесса
+                else if (_currentHazzard == _deathHazzardLevel)
+                {
+                    _currentGameState = GameState.Defeat;
+                }
+
+                break;
+            case GameState.Win:
+                Winlevel();
+                _currentGameState = GameState.EndGame;
+                break;
+            case GameState.Defeat:
+                LooseLevel();
+                _currentGameState = GameState.EndGame; ;
+                break;
+            case GameState.EndGame:
+                return;
         }
+
+        if (isPause)
+            Time.timeScale = 0;
         else
-        {
-            if (_currentHazzard >= _startingGameHazzard)
-            {
-                _currentGameState = GameState.Playing;
-            }
-        }
+            Time.timeScale = 1;
+    }
 
-        if (_currentGameState == GameState.Win)
-        {
-            Winlevel();
-        }
-
-        if (_currentGameState == GameState.Defeat)
-        {
-            LooseLevel();
-        }
+    private void SpawnPlayer(object playerPrefab)
+    {
+        throw new NotImplementedException();
     }
 
     private void LooseLevel()
@@ -94,27 +119,13 @@ public class GameStateController : MonoBehaviour
         OnWin?.Invoke();
         _currentLevel.gameObject.SetActive(false);
     }
-
-
-    private void ChangingGameSate()
-    {
-        if (_currentHazzard == 0)
-        {
-            _currentGameState = GameState.Win;
-        }
-
-        if (_currentHazzard == 100)
-        {
-            _currentGameState = GameState.Defeat;
-        }
-    }
 }
 
 enum GameState
 {
     PrepareGame,
-    Pause,
     Playing,
     Win,
-    Defeat
+    Defeat,
+    EndGame
 }

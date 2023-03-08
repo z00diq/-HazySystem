@@ -9,9 +9,7 @@ public class EnemyManager : MonoBehaviour
     public int EnemyCount;
     private List<Enemy> EnemyList = new List<Enemy>();
 
-    //public bool CanReproduce;
-
-    private void Awake()
+    public void Infestation()
     {
         Reproduce(transform.position);
     }
@@ -25,11 +23,11 @@ public class EnemyManager : MonoBehaviour
             return;
         }
 
-
         Enemy newCells = Instantiate(_enemyPrefab, position, Quaternion.identity);
         newCells.EnemyManager = this;
         newCells.transform.parent = transform;
         newCells.gameObject.name = "Enemy" + EnemyCount;
+
         EnemyCount++;
 
         EnemyList.Add(newCells);

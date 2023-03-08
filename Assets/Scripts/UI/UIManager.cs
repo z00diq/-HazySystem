@@ -10,26 +10,29 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _loosePanel;
     [SerializeField] private GameObject _choosingLevelPanel;
 
+    public void RestartButton_OnButtonClick()
+    {
+        _gameStateController.InitLevel();
+    }
 
     private void OnEnable()
     {
-        _gameStateController.OnWin += GameStateController_OnWin;
-        _gameStateController.OnLoose += GameStateController_OnLoose;
+        GameStateController.OnWin += GameStateController_OnWin;
+        GameStateController.OnLoose += GameStateController_OnLoose;
     }
-
 
     private void OnDisable()
     {
-        _gameStateController.OnWin -= GameStateController_OnWin;
-        _gameStateController.OnLoose -= GameStateController_OnLoose;
+        GameStateController.OnWin -= GameStateController_OnWin;
+        GameStateController.OnLoose -= GameStateController_OnLoose;
     }
     private void GameStateController_OnLoose()
     {
-        _winPanel.SetActive(true); 
+        _loosePanel.SetActive(true); 
     }
 
     private void GameStateController_OnWin()
     {
-        _loosePanel.SetActive(true);
+        _winPanel.SetActive(true);
     }
 }
