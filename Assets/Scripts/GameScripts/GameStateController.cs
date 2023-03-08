@@ -10,11 +10,37 @@ public class GameStateController : MonoBehaviour
 
     [SerializeField] private float _startingGameHazzard;  /*количество заражения при котором игра начинается*/
     [SerializeField] private GameObject _endLevelPanel;
+    [SerializeField] private List<GameObject> _enabledSpells; /*список боступных спеллов для получения игроком*/
     private float _currentHazzard; /*текущее количество заражения*/ 
     private GameState _currentGameState;
     private GameState _previousGameState;
 
     private Level _currentLevel;
+
+    [ContextMenu("SetHazzard")]
+    public void SetHazzard()
+    {
+        _currentHazzard = 33;
+
+    }
+    [ContextMenu("DestroyHazzard")]
+    public void DestroyHazzard()
+    {
+        _currentHazzard = 0;
+    }
+
+    public void Initlevel(Level level)
+    {
+        _currentLevel = Instantiate(level, transform.position, Quaternion.identity);
+        _currentLevel.InitLevel(this);
+        _currentGameState = GameState.PrepareGame;
+    }
+
+    public void AddNewEnabledSpell(GameObject spell)
+    {
+        if(!_enabledSpells.Contains(spell))
+            _enabledSpells.Add(spell);
+    }
 
     private void Update()
     {
@@ -37,6 +63,13 @@ public class GameStateController : MonoBehaviour
                 }
             }
             //Активизация игрового процесса
+        }
+        else
+        {
+            if (_currentHazzard >= _startingGameHazzard)
+            {
+                _currentGameState = GameState.Playing;
+            }
         }
 
         if (_currentGameState == GameState.Win)
@@ -62,13 +95,9 @@ public class GameStateController : MonoBehaviour
         _currentLevel.gameObject.SetActive(false);
     }
 
+
     private void ChangingGameSate()
     {
-        if (_currentHazzard >= _startingGameHazzard && _currentGameState != GameState.Playing)
-        {
-            _currentGameState = GameState.Playing;
-        }
-
         if (_currentHazzard == 0)
         {
             _currentGameState = GameState.Win;
@@ -78,13 +107,6 @@ public class GameStateController : MonoBehaviour
         {
             _currentGameState = GameState.Defeat;
         }
-    }
-
-    public void Initlevel(Level level)
-    {
-        _currentLevel = level;
-        Instantiate(_currentLevel,transform.position, Quaternion.identity);
-        _currentGameState = GameState.PrepareGame;
     }
 }
 
