@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Renderer _renderer;
 
     // link to the higher mind
-    private EnemyManager _enemyManager;
+    public EnemyManager EnemyManager;
 
     // field:
     // about health
@@ -30,26 +30,9 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private float _abilityTimer;
 
-    // about reproduction
-    [SerializeField] private bool _canReproduse;
-    [SerializeField] private bool _haveFastReproduction;
-    [SerializeField] private float _reproductionPeriod;
-    private float _reproductionTimer;
-    [SerializeField] private Color _reproductionColor;
-
-
-    [SerializeField] private bool _canShowRays;
-
-    [SerializeField] private static float SpawnDistance = 0.2f;
-
-    [SerializeField] private List<Vector3> _rayDirections = new List<Vector3>();
-    private List<Ray> _rays = new List<Ray>();
-
-    public void Initialize(EnemyManager EnemyManager, bool fastReproduction, float maxHealth, bool haveInvul, bool canHealHimself, bool canHealAnotherEnemy, bool canTransferDamage, bool canChangePosition, bool canSlowBall)
+    public void Initialize(EnemyManager EnemyManager, float maxHealth, bool haveInvul, bool canHealHimself, bool canHealAnotherEnemy, bool canTransferDamage, bool canChangePosition, bool canSlowBall)
     {
-        _enemyManager = EnemyManager;
-
-        _haveFastReproduction = fastReproduction;
+        this.EnemyManager = EnemyManager;
 
         _maxHealth = maxHealth;
         CurrentHealth = _maxHealth;
@@ -63,50 +46,11 @@ public class Enemy : MonoBehaviour
 
         _canSlowBall = canSlowBall;
 
-        SetupReproductionPeriod(fastReproduction);
-    }
-
-    private void Awake()
-    {
-        CreateRays();
-
-        //Debug.Log("Я родился");
-    }
-
-    private void CreateRays()
-    {
-        for (int i = 0; i < _rayDirections.Count; i++)
-        {
-            _rays.Add(new Ray(transform.position, _rayDirections[i] * SpawnDistance));
-        }
-    }
-
-    private void ShowRays()
-    {
-        for (int i = 0; i < _rayDirections.Count; i++)
-        {
-            Debug.DrawRay(transform.position, _rayDirections[i] * SpawnDistance);
-        }
     }
 
     private void Update()
     {
-        if (_canReproduse)
-        {
-            _reproductionTimer += Time.deltaTime;
-            if (_reproductionTimer >= _reproductionPeriod)
-            {
-                Vector3 newCellPosition = GetPositionForNewCells();
-                if (newCellPosition != Vector3.zero)
-                {
-                    _enemyManager.Reproduce(newCellPosition);
-                    //Debug.Log($"{gameObject.name} reproduce");
-                }
-                _reproductionTimer = 0;
-            }
-        }
-
-        if (_abilityTimer > _enemyManager.AbilityPeriod)
+        if (_abilityTimer > EnemyManager.AbilityPeriod)
         {
             if (CanUseAbility())
             {
@@ -126,54 +70,6 @@ public class Enemy : MonoBehaviour
         {
             _abilityTimer += Time.deltaTime;
         }
-
-        if (_canShowRays)
-        {
-            ShowRays();
-        }
-    }
-
-    private IEnumerator ReproduceCoroutine(bool canReproduce)
-    {
-        WaitForSeconds wait = new WaitForSeconds(_reproductionPeriod);
-
-        while (canReproduce)
-        {
-            Vector3 newCellPosition = GetPositionForNewCells();
-            if (newCellPosition == Vector3.zero)
-            {
-                _enemyManager.Reproduce(newCellPosition);
-            }
-
-            yield return wait;
-        }
-    }
-
-
-    private Vector3 GetPositionForNewCells()
-    {
-        Vector3 vectorToNewCells = Vector3.zero;
-        for (int i = 0; i < _rayDirections.Count; i++)
-        {
-            Ray ray = new Ray(transform.position, transform.TransformDirection(_rayDirections[i])); 
-
-            if (Physics.Raycast(ray, out RaycastHit hit, SpawnDistance*Mathf.Sqrt(2)))
-            {
-                if (hit.collider)
-                {
-                    //Debug.Log($"{gameObject.name} hit {hit.transform.gameObject.name} in {_rayDirections[i]} direction");
-                    continue;
-                }
-            }
-            else
-            {
-                //Debug.Log($"Direction: {_rayDirections[i] * RayRange} empty! We can reproduce on this position!");
-                vectorToNewCells = _rayDirections[i] * SpawnDistance;
-                return transform.position + vectorToNewCells;
-            }
-        }
-
-        return Vector3.zero;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -206,14 +102,6 @@ public class Enemy : MonoBehaviour
     private bool CheckDeath()
     {
         return CurrentHealth <= 0 ? true : false;
-    }
-
-    public void SetupReproductionPeriod(bool isActive)
-    {
-        float offset = Random.Range(-0.5f, 1f);
-
-        _reproductionPeriod = isActive ? _enemyManager.ReproductionPeriod / 2 + offset: _enemyManager.ReproductionPeriod + offset;
-        _reproductionPeriod = Mathf.Clamp(_reproductionPeriod, 1, 10);
     }
 
     public void Heal(Enemy target)

@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2549634282391921092}
   - component: {fileID: 2549634282391921090}
+  - component: {fileID: -5448584339250094368}
+  - component: {fileID: 7559306880736791272}
+  - component: {fileID: 4207759984303163084}
   - component: {fileID: 1358608447461156141}
   m_Layer: 0
   m_Name: Enemy
@@ -47,21 +50,62 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 2549634283025420718}
+  EnemyManager: {fileID: 0}
   _maxHealth: 0
   CurrentHealth: 0
   _canDefence: 0
   _haveDefence: 0
+  _canHealHimself: 0
+  _canHealAnotherEnemy: 0
+  _canTransferDamage: 0
+  _canSlowBall: 0
+  _canChangePosition: 0
   _abilityTimer: 0
-  _canReproduse: 1
-  _reproductionPeriod: 0
-  _reproductionColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &-5448584339250094368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2549634282391921093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e191fffbdf9e05649a761a82b7279f83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _canShowRays: 1
+  _enemyManager: {fileID: 0}
+  _reproductionPeriod: 0
   _rayDirections:
   - {x: 0, y: -1, z: 0}
   - {x: 1, y: -1, z: 0}
   - {x: -1, y: -1, z: 0}
   - {x: -1, y: 0, z: 0}
   - {x: 1, y: 0, z: 0}
+--- !u!114 &7559306880736791272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2549634282391921093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a241e420e1ce21045b3ab4ae2b04d967, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4207759984303163084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2549634282391921093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddbc5025a32ece94c81383aa7843913b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &1358608447461156141
 BoxCollider:
   m_ObjectHideFlags: 0
