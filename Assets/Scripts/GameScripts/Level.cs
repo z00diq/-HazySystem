@@ -22,6 +22,7 @@ public class Level : MonoBehaviour
             gameObject.SetActive(true);
         }
 
+        _enemyManager.ClearEnemies();
         Invoke(nameof(InitEnemySpawner),3f);
     }
 

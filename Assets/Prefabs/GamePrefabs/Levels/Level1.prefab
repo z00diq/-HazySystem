@@ -649,4 +649,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 2549634282391921090, guid: bd66296635f234549a667b695e322041,
     type: 3}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 64
   EnemyCount: 0
