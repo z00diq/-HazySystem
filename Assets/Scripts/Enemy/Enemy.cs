@@ -18,20 +18,21 @@ public class Enemy : MonoBehaviour
     private bool _isAlive = true;
     [SerializeField] private bool _canDefence;
     [SerializeField] private bool _haveDefence;
-    private bool _canHealHimself;
-    private bool _canHealAnotherEnemy;
-    private bool _canTransferDamage;
+    [SerializeField] private bool _canHealHimself;
+    [SerializeField] private bool _canHealAnotherEnemy;
+    [SerializeField] private bool _canTransferDamage;
 
     // influenct on player
-    private bool _canSlowBall;
+    [SerializeField] private bool _canSlowBall;
 
     // position
-    private bool _canChangePosition;
+    [SerializeField] private bool _canChangePosition;
 
     [SerializeField] private float _abilityTimer;
 
     // about reproduction
     [SerializeField] private bool _canReproduse;
+    [SerializeField] private bool _haveFastReproduction;
     [SerializeField] private float _reproductionPeriod;
     private float _reproductionTimer;
     [SerializeField] private Color _reproductionColor;
@@ -48,7 +49,7 @@ public class Enemy : MonoBehaviour
     {
         _enemyManager = EnemyManager;
 
-        SetupReproductionPeriod(fastReproduction);
+        _haveFastReproduction = fastReproduction;
 
         _maxHealth = maxHealth;
         CurrentHealth = _maxHealth;
@@ -61,6 +62,8 @@ public class Enemy : MonoBehaviour
         _canChangePosition = canChangePosition;
 
         _canSlowBall = canSlowBall;
+
+        SetupReproductionPeriod(fastReproduction);
     }
 
     private void Awake()
@@ -113,10 +116,12 @@ public class Enemy : MonoBehaviour
         {
             if (CanUseAbility())
             {
+                /*
                 if (CurrentHealth != _maxHealth)
                 {
                     Heal(this);
                 }
+                */
                 if (_canDefence && !_haveDefence)
                 {
                     StartCoroutine(StayInvul());
@@ -211,10 +216,9 @@ public class Enemy : MonoBehaviour
 
     public void SetupReproductionPeriod(bool isActive)
     {
-        float epsilon = Random.Range(-0.5f, 1f);
+        float offset = Random.Range(-0.5f, 1f);
 
-        _reproductionPeriod = isActive ? _reproductionPeriod / 2 + epsilon: _reproductionPeriod + epsilon;
-
+        _reproductionPeriod = isActive ? _enemyManager.ReproductionPeriod / 2 + offset: _enemyManager.ReproductionPeriod + offset;
         _reproductionPeriod = Mathf.Clamp(_reproductionPeriod, 1, 10);
     }
 
