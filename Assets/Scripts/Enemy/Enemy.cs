@@ -6,6 +6,26 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    // link to the higher mind
+    private EnemyManager _enemyManager;
+
+    // field:
+    // about health
+    [SerializeField] private float _maxHealth;
+    public float CurrentHealth;
+    private bool _isAlive = true;
+    private bool _haveInvul;
+    private bool _canHealHimself;
+    private bool _canHealAnotherEnemy;
+    private bool _canTransferDamage;
+
+    // position
+    private bool _canChangePosition;
+
+    // about reproduction
+    [SerializeField] public bool _canReproduse;
+    [SerializeField] private float _reproductionPeriodBase;
+    private float _reproductionPeriodCurrent;
     public static System.Action<float> OnBorn;
     public static System.Action<float> OnDeath;
 
@@ -15,14 +35,33 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _health = 1;
     [SerializeField] private float _reproductionPeriod = 1;
     private float _reproductionTimer;
-    [SerializeField] private bool _canReproduse;
+    [SerializeField] private Color _reproductionColor;
+
+    [SerializeField] private float _abilityTimer;
 
     [SerializeField] private bool _canShowRays;
 
-    public static float RayRange = 0.2f;
+    [SerializeField] private static float SpawnDistance = 0.2f;
 
     [SerializeField] private List<Vector3> _rayDirections = new List<Vector3>();
     private List<Ray> _rays = new List<Ray>();
+
+    public void Initialize(EnemyManager EnemyManager, bool fastReproduction, float maxHealth, bool invul, bool canHealHimself, bool canHealAnotherEnemy, bool canTransferDamage, bool canChangePosition)
+    {
+        _enemyManager = EnemyManager;
+
+        CheckReproductionPeriod(fastReproduction);
+
+        _maxHealth = maxHealth;
+        CurrentHealth = _maxHealth;
+
+        _haveInvul = invul;
+
+        _canHealHimself = canHealHimself;
+        _canHealAnotherEnemy = canHealAnotherEnemy;
+        _canTransferDamage = canTransferDamage;
+        _canChangePosition = canChangePosition;
+    }
 
     private void Awake()
     {
@@ -34,14 +73,14 @@ public class Enemy : MonoBehaviour
 
         CreateRays();
 
-        //Debug.Log("Я родился");
+        //Debug.Log("пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
     }
 
     private void CreateRays()
     {
         for (int i = 0; i < _rayDirections.Count; i++)
         {
-            _rays.Add(new Ray(transform.position, _rayDirections[i] * RayRange));
+            _rays.Add(new Ray(transform.position, _rayDirections[i] * SpawnDistance));
         }
     }
 
@@ -49,7 +88,7 @@ public class Enemy : MonoBehaviour
     {
         for (int i = 0; i < _rayDirections.Count; i++)
         {
-            Debug.DrawRay(transform.position, _rayDirections[i] * RayRange);
+            Debug.DrawRay(transform.position, _rayDirections[i] * SpawnDistance);
         }
     }
 
@@ -58,12 +97,12 @@ public class Enemy : MonoBehaviour
         if (_canReproduse)
         {
             _reproductionTimer += Time.deltaTime;
-            if (_reproductionTimer >= _reproductionPeriod)
+            if (_reproductionTimer >= _reproductionPeriodCurrent)
             {
                 Vector3 newCellPosition = GetPositionForNewCells();
                 if (newCellPosition != Vector3.zero)
                 {
-                    EnemyManager.Reproduce(newCellPosition);
+                    _enemyManager.Reproduce(newCellPosition);
                     //Debug.Log($"{gameObject.name} reproduce");
                 }
                 _reproductionTimer = 0;
@@ -78,14 +117,14 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator ReproduceCoroutine(bool canReproduce)
     {
-        WaitForSeconds wait = new WaitForSeconds(_reproductionPeriod);
+        WaitForSeconds wait = new WaitForSeconds(_reproductionPeriodCurrent);
 
         while (canReproduce)
         {
             Vector3 newCellPosition = GetPositionForNewCells();
             if (newCellPosition == Vector3.zero)
             {
-                EnemyManager.Reproduce(newCellPosition);
+                _enemyManager.Reproduce(newCellPosition);
             }
 
             yield return wait;
@@ -100,7 +139,7 @@ public class Enemy : MonoBehaviour
         {
             Ray ray = new Ray(transform.position, transform.TransformDirection(_rayDirections[i])); 
 
-            if (Physics.Raycast(ray, out RaycastHit hit, RayRange*Mathf.Sqrt(2)))
+            if (Physics.Raycast(ray, out RaycastHit hit, SpawnDistance*Mathf.Sqrt(2)))
             {
                 if (hit.collider)
                 {
@@ -111,7 +150,7 @@ public class Enemy : MonoBehaviour
             else
             {
                 //Debug.Log($"Direction: {_rayDirections[i] * RayRange} empty! We can reproduce on this position!");
-                vectorToNewCells = _rayDirections[i] * RayRange;
+                vectorToNewCells = _rayDirections[i] * SpawnDistance;
                 return transform.position + vectorToNewCells;
             }
         }
@@ -123,8 +162,19 @@ public class Enemy : MonoBehaviour
     {
         if (collision.rigidbody.GetComponent<Ball>() is Ball ball)
         {
-            _health -= ball.DamageValue;
+            TakeDamage(ball.DamageValue);
+        }
+    }
 
+    public void TakeDamage(float damageValue)
+    {
+        CurrentHealth -= damageValue;
+
+        if (CheckDeath())
+        {
+            _isAlive = false;
+            Destroy(gameObject);
+            //Debug.Log($"{gameObject.name} dead");
             if (CheckDeath())
             {
                 Destroy(gameObject);
@@ -135,8 +185,19 @@ public class Enemy : MonoBehaviour
 
     private bool CheckDeath()
     {
-        return _health <= 0 ? true : false;
+        return CurrentHealth <= 0 ? true : false;
     }
+
+    public void CheckReproductionPeriod(bool isActive)
+    {
+        // add randomness for reproduction period for greater unevenness of the appearance new cells
+        _reproductionPeriodBase += _enemyManager.ReproductionPeriodBase + Random.Range(-0.5f, 1f);
+        // defence of mistake: negative value in reproductionPeriod;
+        _reproductionPeriodBase = Mathf.Clamp(_reproductionPeriodBase, 1, 100);
+
+        _reproductionPeriodCurrent = isActive ? _reproductionPeriodBase / 2 : _reproductionPeriodBase;
+    }
+
 
     private void OnDestroy()
     {

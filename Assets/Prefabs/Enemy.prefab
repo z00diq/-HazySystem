@@ -50,7 +50,12 @@ MonoBehaviour:
   _hazzard: 1
   _health: 1
   _reproductionPeriod: 10
+  _maxHealth: 0
+  CurrentHealht: 0
   _canReproduse: 1
+  _reproductionPeriodBase: 0
+  _reproductionColor: {r: 0, g: 0, b: 0, a: 0}
+  _abilityTimer: 0
   _canShowRays: 1
   _rayDirections:
   - {x: 0, y: -1, z: 0}
@@ -58,9 +63,6 @@ MonoBehaviour:
   - {x: -1, y: -1, z: 0}
   - {x: -1, y: 0, z: 0}
   - {x: 1, y: 0, z: 0}
-  - {x: 0, y: 1, z: 0}
-  - {x: 1, y: 1, z: 0}
-  - {x: -1, y: 1, z: 0}
 --- !u!65 &1358608447461156141
 BoxCollider:
   m_ObjectHideFlags: 0
