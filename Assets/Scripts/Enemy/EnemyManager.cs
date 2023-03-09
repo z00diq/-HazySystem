@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
+    [SerializeField] private EnemiesGlobalValues _enemiesValues;
+
     [SerializeField] private Enemy _enemyPrefab;
 
     public int EnemyCount;
     private List<Enemy> EnemyList = new List<Enemy>();
 
-    public float ReproductionPeriodBase;
+    public float ReproductionPeriod;
+    public float AbilityPeriod;
 
     //public bool CanReproduce;
 
     private void Awake()
     {
+        ReproductionPeriod = _enemiesValues.ReproductionPeriodBase;
+        AbilityPeriod = _enemiesValues.AbilityPeriod;
+
         Reproduce(transform.position);
     }
 
@@ -23,7 +29,16 @@ public class EnemyManager : MonoBehaviour
         if(CheckEmptyPlace(position))
         {
             Enemy newCells = Instantiate(_enemyPrefab, position, Quaternion.identity);
-            newCells.Initialize(this, false, 1, false, false, false, false, false);
+            newCells.Initialize(this,
+                CanHaveAbilities(),     // fast reproduction
+                SetupMaxHealth(),       // max health
+                CanHaveAbilities(),     // invul
+                CanHaveAbilities(),     // can heal himself
+                CanHaveAbilities(),     // can heal another
+                CanHaveAbilities(),     // can transfer damage
+                CanHaveAbilities(),     // can change position
+                CanHaveAbilities()      // can slow ball
+                );    
 
             newCells.transform.parent = transform;
             newCells.gameObject.name = "Enemy" + EnemyCount;
@@ -44,5 +59,15 @@ public class EnemyManager : MonoBehaviour
         {
             return true;
         }
+    }
+
+    private bool CanHaveAbilities()
+    {
+        return (int)Random.Range(0, 100) <= _enemiesValues.ChanceGetAbility ? true: false;
+    }
+
+    private float SetupMaxHealth()
+    {
+        return (int)Random.Range(0, 100) <= _enemiesValues.ChanceGetAbility ? _enemiesValues.MaximumHealthForCells : _enemiesValues.MinimumHealthForCells;
     }
 }
