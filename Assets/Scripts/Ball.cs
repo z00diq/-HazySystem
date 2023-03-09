@@ -51,18 +51,18 @@ public class Ball : MonoBehaviour
     
     private void OnCollisionExit(Collision collision)
     {
-        /*
+        
         //исправление для того, чтобы не было постоянного горизонтального или вертикального движения
         if (_currentBallState == State.Active)
         {
             
-            _ballRigidbody.velocity = _ballRigidbody.velocity.normalized * _ballSpeed;
+            //_ballRigidbody.velocity = _ballRigidbody.velocity.normalized * _ballSpeed;
             if (_ballRigidbody.velocity.x == 0f)
                 _ballRigidbody.velocity = _ballRigidbody.velocity + 20f * Vector3.right;
             if (_ballRigidbody.velocity.y == 0f)
                 _ballRigidbody.velocity = _ballRigidbody.velocity + 20f * Vector3.up;
         }
-        */
+        
     }
 
     private void Shot()
@@ -82,9 +82,9 @@ public class Ball : MonoBehaviour
         plane.Raycast(ray, out distance);
         Vector3 point = transform.InverseTransformPoint(ray.GetPoint(distance));
 
-        if (point.y < transform.position.y + _lowerLimitOfTheDirectionOfMovement)
+        if (point.y < _lowerLimitOfTheDirectionOfMovement)
         {
-            point.y = transform.position.y + _lowerLimitOfTheDirectionOfMovement;
+            point.y = _lowerLimitOfTheDirectionOfMovement;
         }
         DrawLine(Vector3.zero, point);
         return point.normalized;
