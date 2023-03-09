@@ -17,6 +17,7 @@ public enum AttackType
 public class Ball : MonoBehaviour
 {
     public float DamageValue;
+    public AttackType AttackType { get; set; }
 
     [SerializeField] private float _ballSpeed = 10f;
     [SerializeField] private Rigidbody _ballRigidbody;
@@ -28,7 +29,6 @@ public class Ball : MonoBehaviour
     private Camera _playerCamera;
     private Vector3 _directionOfMovement;
     private State _currentBallState;
-    public AttackType AttackType = AttackType.Default;
     private void Start()
     {
         _playerCamera = Camera.main;
