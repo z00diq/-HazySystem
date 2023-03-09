@@ -19,6 +19,7 @@ public class GoBack : MonoBehaviour
     {
         _ball = GetComponent<Ball>();
         _playerMove = FindAnyObjectByType<PlayerMove>();
+        _timer = _timeToNextCast;
     }
 
     void Update()

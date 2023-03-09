@@ -16,6 +16,7 @@ public class PowerUpBall : MonoBehaviour
     private void Start()
     {
         _ball = GetComponent<Ball>();
+        _timer = _timeToNextCast;
     }
     void Update()
     {
