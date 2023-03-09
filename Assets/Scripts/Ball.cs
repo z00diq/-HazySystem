@@ -13,16 +13,21 @@ public class Ball : MonoBehaviour
 {
     public float DamageValue;
 
-    [SerializeField] private Rigidbody _ballRigidbody;
-    [SerializeField] private Camera _playerCamera;
     [SerializeField] private float _ballSpeed = 10f;
+    [SerializeField] private Rigidbody _ballRigidbody;
     [SerializeField] private float _lowerLimitOfTheDirectionOfMovement = 0.5f;
     [SerializeField] private LineRenderer _lineRenderer;
-    [SerializeField] private Transform _playerTrnasform;
 
+
+    private Transform _playerTrnasform;
+    private Camera _playerCamera;
     private Vector3 _directionOfMovement;
     private State _currentBallState;
-
+    private void Start()
+    {
+        _playerCamera = Camera.main;
+        _playerTrnasform = FindObjectOfType<PlayerMove>().transform;
+    }
 
     void Update()
     {
@@ -40,12 +45,28 @@ public class Ball : MonoBehaviour
         if (transform.position.y < 0)
         {
             Debug.Log("GameOver");
-        }    
+        }
+        //Debug.Log(_ballRigidbody.velocity.magnitude);
+    }
+    
+    private void OnCollisionExit(Collision collision)
+    {
+        /*
+        //исправление для того, чтобы не было постоянного горизонтального или вертикального движения
+        if (_currentBallState == State.Active)
+        {
+            
+            _ballRigidbody.velocity = _ballRigidbody.velocity.normalized * _ballSpeed;
+            if (_ballRigidbody.velocity.x == 0f)
+                _ballRigidbody.velocity = _ballRigidbody.velocity + 20f * Vector3.right;
+            if (_ballRigidbody.velocity.y == 0f)
+                _ballRigidbody.velocity = _ballRigidbody.velocity + 20f * Vector3.up;
+        }
+        */
     }
 
     private void Shot()
     {
-        _ballRigidbody.isKinematic = false;
         _ballRigidbody.velocity = _directionOfMovement * _ballSpeed;
         _currentBallState = State.Active;
         _lineRenderer.enabled = false;
@@ -76,10 +97,17 @@ public class Ball : MonoBehaviour
     }
     public void ChangeStateToIdle()
     {
-        _ballRigidbody.isKinematic = true;
         _lineRenderer.enabled = true;
         _currentBallState = State.Idle;
     }
 
-    public State GetState() { return _currentBallState; }   
+    public State GetState() { return _currentBallState; } 
+
+    public IEnumerator SlowBallForTime(float divider, float time)
+    {
+        _ballSpeed /= divider;
+        yield return new WaitForSeconds(time);
+        _ballSpeed *= divider;
+    }
+    
 }
