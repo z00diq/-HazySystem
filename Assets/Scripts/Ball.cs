@@ -9,6 +9,11 @@ public enum State
     Idle,
     Active
 }
+public enum AttackType
+{
+    Default,
+    Special
+}
 public class Ball : MonoBehaviour
 {
     public float DamageValue;
@@ -23,6 +28,7 @@ public class Ball : MonoBehaviour
     private Camera _playerCamera;
     private Vector3 _directionOfMovement;
     private State _currentBallState;
+    public AttackType AttackType = AttackType.Default;
     private void Start()
     {
         _playerCamera = Camera.main;
@@ -101,7 +107,8 @@ public class Ball : MonoBehaviour
         _currentBallState = State.Idle;
     }
 
-    public State GetState() { return _currentBallState; } 
+    public State GetState() { return _currentBallState; }
+    
 
     public IEnumerator SlowBallForTime(float divider, float time)
     {

@@ -686,14 +686,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 813396336}
-  m_LocalRotation: {x: -0, y: -0, z: 0.17513578, w: 0.98454434}
-  m_LocalPosition: {x: -10, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.3066259, w: 0.9518301}
+  m_LocalPosition: {x: -10.27, y: 4.87, z: 0}
   m_LocalScale: {x: 1, y: 30, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1406737702}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 20.173}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 35.712}
 --- !u!65 &813396338
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1386,6 +1386,7 @@ MonoBehaviour:
   _enemyPrefab: {fileID: 2549634282391921090, guid: bd66296635f234549a667b695e322041,
     type: 3}
   EnemyCount: 6
+  ReproductionPeriodBase: 0
 --- !u!4 &1548025584
 Transform:
   m_ObjectHideFlags: 0
@@ -1910,6 +1911,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4642108091850655364, guid: 24ef69a01047b5c4c84293cf14b6d0a1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.71
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24ef69a01047b5c4c84293cf14b6d0a1, type: 3}

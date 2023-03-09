@@ -41,7 +41,8 @@ public class GoBack : MonoBehaviour
         float startTime = Time.realtimeSinceStartup; 
         float fraction = 0f;
         _playerMove.SetState(State.Idle);
-        _ball.DamageValue += 1000000f;
+        _ball.AttackType = AttackType.Special;
+        _ball.DamageValue += 10000000;
         while (fraction < 1f)
         {
             fraction = Mathf.Clamp01((Time.realtimeSinceStartup - startTime) / time);
@@ -49,7 +50,8 @@ public class GoBack : MonoBehaviour
             yield return null;
         }
         _ball.ChangeStateToIdle();
-        _ball.DamageValue -= 1000000f;
+        _ball.AttackType = AttackType.Default;
+        _ball.DamageValue -= 10000000;
         _playerMove.SetState(State.Active);
     }
 }
