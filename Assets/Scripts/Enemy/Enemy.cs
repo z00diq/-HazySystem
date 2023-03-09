@@ -7,6 +7,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public static System.Action<float> OnBorn;
+    public static System.Action<float> OnDeath;
 
     public EnemyManager EnemyManager;
 
@@ -127,7 +128,7 @@ public class Enemy : MonoBehaviour
             if (CheckDeath())
             {
                 Destroy(gameObject);
-                //Debug.Log($"{gameObject.name} dead");
+               
             }
         }
     }
@@ -135,5 +136,10 @@ public class Enemy : MonoBehaviour
     private bool CheckDeath()
     {
         return _health <= 0 ? true : false;
+    }
+
+    private void OnDestroy()
+    {
+        OnDeath?.Invoke(_hazzard);
     }
 }

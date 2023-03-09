@@ -46,6 +46,12 @@ public class GameStateController : MonoBehaviour
     private void OnEnable()
     {
         Enemy.OnBorn += Enemy_OnBorn;
+        Enemy.OnDeath += Enemy_OnDeath;
+    }
+
+    private void Enemy_OnDeath(float hazzard)
+    {
+        _currentHazzard -= hazzard;
     }
 
     private void Enemy_OnBorn(float hazzard)
@@ -59,8 +65,7 @@ public class GameStateController : MonoBehaviour
         {
             case GameState.PrepareGame:
 
-                if (Input.GetKeyDown(KeyCode.Escape))
-                    isPause = !isPause;
+                PauseGame();
 
                 if (_currentHazzard >= _startingGameHazzard)
                 {
@@ -71,10 +76,19 @@ public class GameStateController : MonoBehaviour
                 break;
             case GameState.Playing:
 
-                if (Input.GetKeyDown(KeyCode.Escape))
-                    isPause = !isPause;
+                PauseGame();
                 //Активизация игрового процесса
-  
+
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+               
+
+                if (Physics.Raycast(ray, out hit))
+                    if (hit.collider.GetComponent<Enemy>())
+                    {
+                        Destroy(hit.collider.gameObject);
+                    }
+
                 if (_currentHazzard == 0)
                 {
                     _currentGameState = GameState.Win;
@@ -83,7 +97,6 @@ public class GameStateController : MonoBehaviour
                 {
                     _currentGameState = GameState.Defeat;
                 }
-
                 break;
             case GameState.Win:
                 Winlevel();
@@ -101,6 +114,12 @@ public class GameStateController : MonoBehaviour
             Time.timeScale = 0;
         else
             Time.timeScale = 1;
+    }
+
+    private void PauseGame()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            isPause = !isPause;
     }
 
     private void SpawnPlayer(object playerPrefab)
