@@ -46,16 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c30d21aff5d3dfc4b81587939244564b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyManager: {fileID: 0}
-  _hazzard: 1
-  _health: 1
-  _reproductionPeriod: 10
+  _renderer: {fileID: 2549634283025420718}
   _maxHealth: 0
-  CurrentHealht: 0
-  _canReproduse: 1
-  _reproductionPeriodBase: 0
-  _reproductionColor: {r: 0, g: 0, b: 0, a: 0}
+  CurrentHealth: 0
   _abilityTimer: 0
+  _canReproduse: 0
+  _reproductionPeriod: 0
+  _reproductionColor: {r: 0, g: 0, b: 0, a: 0}
   _canShowRays: 1
   _rayDirections:
   - {x: 0, y: -1, z: 0}

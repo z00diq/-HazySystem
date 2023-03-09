@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private Renderer _renderer;
+
     // link to the higher mind
     private EnemyManager _enemyManager;
 
@@ -14,30 +16,26 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _maxHealth;
     public float CurrentHealth;
     private bool _isAlive = true;
-    private bool _haveInvul;
+    [SerializeField] private bool _canDefence;
+    [SerializeField] private bool _haveDefence;
     private bool _canHealHimself;
     private bool _canHealAnotherEnemy;
     private bool _canTransferDamage;
 
+    // influenct on player
+    private bool _canSlowBall;
+
     // position
     private bool _canChangePosition;
 
+    [SerializeField] private float _abilityTimer;
+
     // about reproduction
-    [SerializeField] public bool _canReproduse;
-    [SerializeField] private float _reproductionPeriodBase;
-    private float _reproductionPeriodCurrent;
-    public static System.Action<float> OnBorn;
-    public static System.Action<float> OnDeath;
-
-    public EnemyManager EnemyManager;
-
-    [SerializeField] private float _hazzard;
-    [SerializeField] private float _health = 1;
-    [SerializeField] private float _reproductionPeriod = 1;
+    [SerializeField] private bool _canReproduse;
+    [SerializeField] private float _reproductionPeriod;
     private float _reproductionTimer;
     [SerializeField] private Color _reproductionColor;
 
-    [SerializeField] private float _abilityTimer;
 
     [SerializeField] private bool _canShowRays;
 
@@ -46,21 +44,23 @@ public class Enemy : MonoBehaviour
     [SerializeField] private List<Vector3> _rayDirections = new List<Vector3>();
     private List<Ray> _rays = new List<Ray>();
 
-    public void Initialize(EnemyManager EnemyManager, bool fastReproduction, float maxHealth, bool invul, bool canHealHimself, bool canHealAnotherEnemy, bool canTransferDamage, bool canChangePosition)
+    public void Initialize(EnemyManager EnemyManager, bool fastReproduction, float maxHealth, bool haveInvul, bool canHealHimself, bool canHealAnotherEnemy, bool canTransferDamage, bool canChangePosition, bool canSlowBall)
     {
         _enemyManager = EnemyManager;
 
-        CheckReproductionPeriod(fastReproduction);
+        SetupReproductionPeriod(fastReproduction);
 
         _maxHealth = maxHealth;
         CurrentHealth = _maxHealth;
 
-        _haveInvul = invul;
+        _canDefence = haveInvul;
 
         _canHealHimself = canHealHimself;
         _canHealAnotherEnemy = canHealAnotherEnemy;
         _canTransferDamage = canTransferDamage;
         _canChangePosition = canChangePosition;
+
+        _canSlowBall = canSlowBall;
     }
 
     private void Awake()
@@ -97,7 +97,7 @@ public class Enemy : MonoBehaviour
         if (_canReproduse)
         {
             _reproductionTimer += Time.deltaTime;
-            if (_reproductionTimer >= _reproductionPeriodCurrent)
+            if (_reproductionTimer >= _reproductionPeriod)
             {
                 Vector3 newCellPosition = GetPositionForNewCells();
                 if (newCellPosition != Vector3.zero)
@@ -109,6 +109,25 @@ public class Enemy : MonoBehaviour
             }
         }
 
+        if (_abilityTimer > _enemyManager.AbilityPeriod)
+        {
+            if (CanUseAbility())
+            {
+                if (CurrentHealth != _maxHealth)
+                {
+                    Heal(this);
+                }
+                if (_canDefence && !_haveDefence)
+                {
+                    StartCoroutine(StayInvul());
+                }
+            }
+        }
+        else
+        {
+            _abilityTimer += Time.deltaTime;
+        }
+
         if (_canShowRays)
         {
             ShowRays();
@@ -117,7 +136,7 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator ReproduceCoroutine(bool canReproduce)
     {
-        WaitForSeconds wait = new WaitForSeconds(_reproductionPeriodCurrent);
+        WaitForSeconds wait = new WaitForSeconds(_reproductionPeriod);
 
         while (canReproduce)
         {
@@ -162,23 +181,25 @@ public class Enemy : MonoBehaviour
     {
         if (collision.rigidbody.GetComponent<Ball>() is Ball ball)
         {
-            TakeDamage(ball.DamageValue);
+            TakeDamage(ball.DamageValue, ball.AttackType);
+
+            if (_canSlowBall)
+            {
+                //StartCoroutine(ball.SlowBallForTime(2, 5));
+            }
         }
     }
 
-    public void TakeDamage(float damageValue)
+    public void TakeDamage(float damageValue, AttackType AttackType = AttackType.Default)
     {
-        CurrentHealth -= damageValue;
-
-        if (CheckDeath())
+        if (AttackType == AttackType.Special || !_haveDefence)
         {
-            _isAlive = false;
-            Destroy(gameObject);
-            //Debug.Log($"{gameObject.name} dead");
-            if (CheckDeath())
+            CurrentHealth -= damageValue;
+
+            if (_isAlive = CheckDeath())
             {
                 Destroy(gameObject);
-               
+                //Debug.Log($"{gameObject.name} dead");
             }
         }
     }
@@ -188,19 +209,45 @@ public class Enemy : MonoBehaviour
         return CurrentHealth <= 0 ? true : false;
     }
 
-    public void CheckReproductionPeriod(bool isActive)
+    public void SetupReproductionPeriod(bool isActive)
     {
-        // add randomness for reproduction period for greater unevenness of the appearance new cells
-        _reproductionPeriodBase += _enemyManager.ReproductionPeriodBase + Random.Range(-0.5f, 1f);
-        // defence of mistake: negative value in reproductionPeriod;
-        _reproductionPeriodBase = Mathf.Clamp(_reproductionPeriodBase, 1, 100);
+        float epsilon = Random.Range(-0.5f, 1f);
 
-        _reproductionPeriodCurrent = isActive ? _reproductionPeriodBase / 2 : _reproductionPeriodBase;
+        _reproductionPeriod = isActive ? _reproductionPeriod / 2 + epsilon: _reproductionPeriod + epsilon;
+
+        _reproductionPeriod = Mathf.Clamp(_reproductionPeriod, 1, 10);
     }
 
-
-    private void OnDestroy()
+    public void Heal(Enemy target)
     {
-        OnDeath?.Invoke(_hazzard);
+        if (target.CurrentHealth != target._maxHealth)
+        {
+            target.CurrentHealth = target._maxHealth;
+            _abilityTimer = 0f;
+        }
+    }
+
+    public void TransferDamage(Enemy target, float damageValue)
+    {
+        target.TakeDamage(damageValue);
+        _abilityTimer = 0f;
+    }
+
+    private bool CanUseAbility()
+    {
+        return Random.Range(0, 100) > 60 ? true : false;
+    }
+
+    private IEnumerator StayInvul()
+    {
+        _haveDefence = true;
+        _renderer.material.color = Color.white;
+
+        _abilityTimer = 0f;
+
+        yield return new WaitForSeconds(5);
+
+        _haveDefence = false;
+        _renderer.material.color = Color.red;
     }
 }
