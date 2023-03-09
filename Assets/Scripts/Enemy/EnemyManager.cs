@@ -70,4 +70,15 @@ public class EnemyManager : MonoBehaviour
     {
         return (int)Random.Range(0, 100) <= _enemiesValues.ChanceGetAbility ? _enemiesValues.MaximumHealthForCells : _enemiesValues.MinimumHealthForCells;
     }
+
+    public IEnumerator StopReproduce(float time)
+    {
+        yield return null;
+    }
+
+    public IEnumerator StopEnemyMoving(float time)
+    {
+        yield return null;
+    }
+
 }
