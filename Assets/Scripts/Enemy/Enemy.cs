@@ -93,6 +93,7 @@ public class Enemy : MonoBehaviour
 
             if (_isAlive = CheckDeath())
             {
+                GameplayEventManager.SendEnemyKilled();
                 Destroy(gameObject);
                 //Debug.Log($"{gameObject.name} dead");
             }
