@@ -988,12 +988,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1201028419}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1279187517 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3869922643309132159, guid: 24ef69a01047b5c4c84293cf14b6d0a1,
-    type: 3}
-  m_PrefabInstance: {fileID: 3869922642011462699}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1406737701
 GameObject:
   m_ObjectHideFlags: 0
@@ -1159,11 +1153,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemiesValues: {fileID: 1548025585}
-  _enemyPrefab: {fileID: 2549634282391921090, guid: bd66296635f234549a667b695e322041,
-    type: 3}
+  _enemyPrefab: {fileID: 0}
+  SpawnDistance: 0.2
   EnemyCount: 6
   ReproductionPeriod: 1
   AbilityPeriod: 100
+  ReproduceRuleChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _canReproduce: 0
 --- !u!4 &1548025584
 Transform:
   m_ObjectHideFlags: 0
@@ -1212,7 +1210,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1552868874
 Transform:
   m_ObjectHideFlags: 0
@@ -1525,30 +1523,90 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1820520426}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1861848121 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3973846200420259389, guid: 9d570df358c38664397cde42c44cf5f7,
+--- !u!114 &1861848122 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2922037637181761815, guid: 9d570df358c38664397cde42c44cf5f7,
     type: 3}
   m_PrefabInstance: {fileID: 3973846200121626400}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1861848130
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbc57141b7218b42a3da4702d91ce91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1861848123 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 7263013594002002203, guid: 9d570df358c38664397cde42c44cf5f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 3973846200121626400}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1861848121}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f7a407670a69641b1c92a83a30c30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1861848124 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1037401489, guid: 9d570df358c38664397cde42c44cf5f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 3973846200121626400}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae1f944ce04a4114db6afe4697a87ec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1861848125 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2727812167934235808, guid: 9d570df358c38664397cde42c44cf5f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 3973846200121626400}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c5fa74c6e33ed34087f7d7f6a60a4d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1861848126 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7771408274935446926, guid: 9d570df358c38664397cde42c44cf5f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 3973846200121626400}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c572d164714e7de45bf344d1c6eb4e78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1861848129 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2420730375300870, guid: 9d570df358c38664397cde42c44cf5f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 3973846200121626400}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 346dd1c0b27a9da4bb9d29ecbb43abdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1861848130 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1861848130, guid: 9d570df358c38664397cde42c44cf5f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 3973846200121626400}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88153ad8a1d6b624cb335f54911da68f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeToNextCast: 6
-  _numberOfClones: 2
-  _countOfCollisionsToDie: 5
-  _aLotOfBallsChargeIcon: {fileID: 1886277596}
-  _cloneBallPrefab: {fileID: 5380790496199341550, guid: 3fcc64d06705eb94da917aee51d2e33d,
-    type: 3}
 --- !u!114 &1886277596 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2735572712701717053, guid: 64fd9de2c22fcba41adcdb58e90c2b42,
@@ -2107,22 +2165,66 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1037401489, guid: 9d570df358c38664397cde42c44cf5f7, type: 3}
-      propertyPath: _playerTrasform
+      propertyPath: _chargeIcon
       value: 
-      objectReference: {fileID: 1279187517}
+      objectReference: {fileID: 2058646195}
     - target: {fileID: 1037401489, guid: 9d570df358c38664397cde42c44cf5f7, type: 3}
       propertyPath: _goBackChargeIcon
       value: 
       objectReference: {fileID: 2058646195}
+    - target: {fileID: 1037401489, guid: 9d570df358c38664397cde42c44cf5f7, type: 3}
+      propertyPath: <ChargeIcon>k__BackingField
+      value: 
+      objectReference: {fileID: 2058646195}
+    - target: {fileID: 1861848130, guid: 9d570df358c38664397cde42c44cf5f7, type: 3}
+      propertyPath: _chargeIcon
+      value: 
+      objectReference: {fileID: 1886277596}
+    - target: {fileID: 1861848130, guid: 9d570df358c38664397cde42c44cf5f7, type: 3}
+      propertyPath: _aLotOfBallsChargeIcon
+      value: 
+      objectReference: {fileID: 1886277596}
+    - target: {fileID: 1861848130, guid: 9d570df358c38664397cde42c44cf5f7, type: 3}
+      propertyPath: <ChargeIcon>k__BackingField
+      value: 
+      objectReference: {fileID: 1886277596}
+    - target: {fileID: 2420730375300870, guid: 9d570df358c38664397cde42c44cf5f7, type: 3}
+      propertyPath: _chargeIcon
+      value: 
+      objectReference: {fileID: 83455705}
     - target: {fileID: 2420730375300870, guid: 9d570df358c38664397cde42c44cf5f7, type: 3}
       propertyPath: _noMoveEnemyChargeIcon
       value: 
       objectReference: {fileID: 83455705}
+    - target: {fileID: 2420730375300870, guid: 9d570df358c38664397cde42c44cf5f7, type: 3}
+      propertyPath: <ChargeIcon>k__BackingField
+      value: 
+      objectReference: {fileID: 83455705}
+    - target: {fileID: 2727812167934235808, guid: 9d570df358c38664397cde42c44cf5f7,
+        type: 3}
+      propertyPath: _chargeIcon
+      value: 
+      objectReference: {fileID: 68930089}
     - target: {fileID: 2727812167934235808, guid: 9d570df358c38664397cde42c44cf5f7,
         type: 3}
       propertyPath: _powerUpBallChargeIcon
       value: 
       objectReference: {fileID: 68930089}
+    - target: {fileID: 2727812167934235808, guid: 9d570df358c38664397cde42c44cf5f7,
+        type: 3}
+      propertyPath: <ChargeIcon>k__BackingField
+      value: 
+      objectReference: {fileID: 68930089}
+    - target: {fileID: 2922037637181761815, guid: 9d570df358c38664397cde42c44cf5f7,
+        type: 3}
+      propertyPath: _chargeIcon
+      value: 
+      objectReference: {fileID: 1623971039}
+    - target: {fileID: 2922037637181761815, guid: 9d570df358c38664397cde42c44cf5f7,
+        type: 3}
+      propertyPath: <ChargeIcon>k__BackingField
+      value: 
+      objectReference: {fileID: 1623971039}
     - target: {fileID: 2922037637181761815, guid: 9d570df358c38664397cde42c44cf5f7,
         type: 3}
       propertyPath: _stopReproductionChargeIcon
@@ -2188,10 +2290,70 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ball
       objectReference: {fileID: 0}
+    - target: {fileID: 5967170784318442877, guid: 9d570df358c38664397cde42c44cf5f7,
+        type: 3}
+      propertyPath: _abilities.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5967170784318442877, guid: 9d570df358c38664397cde42c44cf5f7,
+        type: 3}
+      propertyPath: _countOfStartAbilities
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5967170784318442877, guid: 9d570df358c38664397cde42c44cf5f7,
+        type: 3}
+      propertyPath: _abilities.Array.data[0]
+      value: 
+      objectReference: {fileID: 1861848125}
+    - target: {fileID: 5967170784318442877, guid: 9d570df358c38664397cde42c44cf5f7,
+        type: 3}
+      propertyPath: _abilities.Array.data[1]
+      value: 
+      objectReference: {fileID: 1861848124}
+    - target: {fileID: 5967170784318442877, guid: 9d570df358c38664397cde42c44cf5f7,
+        type: 3}
+      propertyPath: _abilities.Array.data[2]
+      value: 
+      objectReference: {fileID: 1861848123}
+    - target: {fileID: 5967170784318442877, guid: 9d570df358c38664397cde42c44cf5f7,
+        type: 3}
+      propertyPath: _abilities.Array.data[3]
+      value: 
+      objectReference: {fileID: 1861848122}
+    - target: {fileID: 5967170784318442877, guid: 9d570df358c38664397cde42c44cf5f7,
+        type: 3}
+      propertyPath: _abilities.Array.data[4]
+      value: 
+      objectReference: {fileID: 1861848129}
+    - target: {fileID: 5967170784318442877, guid: 9d570df358c38664397cde42c44cf5f7,
+        type: 3}
+      propertyPath: _abilities.Array.data[5]
+      value: 
+      objectReference: {fileID: 1861848130}
+    - target: {fileID: 5967170784318442877, guid: 9d570df358c38664397cde42c44cf5f7,
+        type: 3}
+      propertyPath: _abilities.Array.data[6]
+      value: 
+      objectReference: {fileID: 1861848126}
+    - target: {fileID: 7263013594002002203, guid: 9d570df358c38664397cde42c44cf5f7,
+        type: 3}
+      propertyPath: _chargeIcon
+      value: 
+      objectReference: {fileID: 1768296690}
     - target: {fileID: 7263013594002002203, guid: 9d570df358c38664397cde42c44cf5f7,
         type: 3}
       propertyPath: _powerUpBallChargeIcon
       value: 
       objectReference: {fileID: 1768296690}
+    - target: {fileID: 7263013594002002203, guid: 9d570df358c38664397cde42c44cf5f7,
+        type: 3}
+      propertyPath: <ChargeIcon>k__BackingField
+      value: 
+      objectReference: {fileID: 1768296690}
+    - target: {fileID: 7771408274935446926, guid: 9d570df358c38664397cde42c44cf5f7,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d570df358c38664397cde42c44cf5f7, type: 3}

@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SplashDamage : MonoBehaviour
+public class SplashDamage : Ability
 {
-    [SerializeField] private float _timeToNextCast;
+    
     [SerializeField] private float _radiusOfCast = 4;
-    [SerializeField] private ChargeIcon _powerUpBallChargeIcon;
 
     private Ball _ball;
     private float _timer;
@@ -28,7 +27,7 @@ public class SplashDamage : MonoBehaviour
         {
             _timer += Time.deltaTime;
         }
-        _powerUpBallChargeIcon.SetChargeValue(_timer, _timeToNextCast);
+        ChargeIcon.SetChargeValue(_timer, _timeToNextCast);
     }
     private void SplashDamageCast(float radius)
     {

@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpBall : MonoBehaviour
+public class PowerUpBall : Ability
 {
-    [SerializeField] private float _timeToNextCast = 24f;
     [SerializeField] private float _timeOfAction = 7f;
     [SerializeField] private float _scalePowerUpBall = 1.4f;
     [SerializeField] private float _increaseDamage;
-    [SerializeField] private ChargeIcon _powerUpBallChargeIcon;
 
     private Ball _ball;
     private float _timer;
@@ -29,7 +27,7 @@ public class PowerUpBall : MonoBehaviour
         {
             _timer += Time.deltaTime;
         }
-        _powerUpBallChargeIcon.SetChargeValue(_timer, _timeToNextCast);
+        ChargeIcon.SetChargeValue(_timer, _timeToNextCast);
     }
 
     private void PowerUp()

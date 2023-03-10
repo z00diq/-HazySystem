@@ -4,12 +4,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class GoBack : MonoBehaviour
+public class GoBack : Ability
 {
 
     [SerializeField] private float _timeToBackInSeconds = 2f;
-    [SerializeField] private float _timeToNextCast = 10f;
-    [SerializeField] private ChargeIcon _goBackChargeIcon;
 
     private Ball _ball;
     private float _timer;
@@ -32,7 +30,7 @@ public class GoBack : MonoBehaviour
         {
             _timer += Time.deltaTime;
         }
-        _goBackChargeIcon.SetChargeValue(_timer, _timeToNextCast);
+        ChargeIcon.SetChargeValue(_timer, _timeToNextCast);
     }
 
     private IEnumerator Back(float time, Vector2 targetPosition)
