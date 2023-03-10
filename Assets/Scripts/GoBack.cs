@@ -41,7 +41,7 @@ public class GoBack : MonoBehaviour
         Vector3 startBallPosition = transform.position;
         float startTime = Time.realtimeSinceStartup; 
         float fraction = 0f;
-        _playerMove.SetState(State.Idle);
+        _playerMove.SetState(State.Inactive);
         _ball.AttackType = AttackType.Special;
         _ball.DamageValue += 10000000;
         while (fraction < 1f)

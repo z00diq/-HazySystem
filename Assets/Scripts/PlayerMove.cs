@@ -22,7 +22,7 @@ public class PlayerMove : MonoBehaviour
     }
     void Update()
     {
-        if (_state == State.Idle) return;
+        if (_state == State.Inactive) return;
         if (Input.GetAxis("Horizontal") < 0 && transform.position.x < _leftLimitation.position.x) return;
         if (Input.GetAxis("Horizontal") > 0 && transform.position.x > _rightLimitation.position.x) return;
 

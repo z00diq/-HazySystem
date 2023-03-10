@@ -153,7 +153,7 @@ PrefabInstance:
     - target: {fileID: 2549634282391921090, guid: bd66296635f234549a667b695e322041,
         type: 3}
       propertyPath: _reproductionPeriod
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2549634282391921092, guid: bd66296635f234549a667b695e322041,
         type: 3}
@@ -1609,6 +1609,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1548025584}
   - component: {fileID: 1548025583}
+  - component: {fileID: 1548025585}
   m_Layer: 0
   m_Name: EnemyManager
   m_TagString: Untagged
@@ -1628,12 +1629,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e852a0b25b17154589ea53674db7441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemiesValues: {fileID: 0}
+  _enemiesValues: {fileID: 1548025585}
   _enemyPrefab: {fileID: 2549634282391921090, guid: bd66296635f234549a667b695e322041,
     type: 3}
   EnemyCount: 6
   ReproductionPeriod: 1
-  AbilityPeriod: 0
+  AbilityPeriod: 100
 --- !u!4 &1548025584
 Transform:
   m_ObjectHideFlags: 0
@@ -1650,6 +1651,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1548025585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548025582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd68436d50aa49a469c74ff3c7941e00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReproductionPeriodBase: 1
+  AbilityPeriod: 100
+  MinimumHealthForCells: 12
+  MaximumHealthForCells: 12
+  ChanceGetAbility: 0
 --- !u!1 &1552868873
 GameObject:
   m_ObjectHideFlags: 0

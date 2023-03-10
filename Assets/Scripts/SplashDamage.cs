@@ -6,18 +6,16 @@ public class SplashDamage : MonoBehaviour
 {
     [SerializeField] private float _timeToNextCast;
     [SerializeField] private float _radiusOfCast = 4;
-    //[SerializeField] private ChargeIcon _powerUpBallChargeIcon;
+    [SerializeField] private ChargeIcon _powerUpBallChargeIcon;
 
     private Ball _ball;
     private float _timer;
-    // Start is called before the first frame update
     private void Start()
     {
         _ball = GetComponent<Ball>();
         _timer = _timeToNextCast;
     }
 
-    // Update is called once per frame
     void Update()
     {
        
@@ -30,7 +28,7 @@ public class SplashDamage : MonoBehaviour
         {
             _timer += Time.deltaTime;
         }
-        //_powerUpBallChargeIcon.SetChargeValue(_timer, _timeToNextCast);
+        _powerUpBallChargeIcon.SetChargeValue(_timer, _timeToNextCast);
     }
     private void SplashDamageCast(float radius)
     {
