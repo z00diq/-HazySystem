@@ -6,7 +6,7 @@ using UnityEngine;
 
 public enum State
 {
-    Idle,
+    Inactive,
     Active
 }
 public enum AttackType
@@ -37,7 +37,7 @@ public class Ball : MonoBehaviour
 
     void Update()
     {
-        if (_currentBallState == State.Idle)
+        if (_currentBallState == State.Inactive)
         {
             transform.position = _playerTrnasform.position + Vector3.up;
             _directionOfMovement = SetDirectionOfMovement();
@@ -62,7 +62,7 @@ public class Ball : MonoBehaviour
         if (_currentBallState == State.Active)
         {
             
-            //_ballRigidbody.velocity = _ballRigidbody.velocity.normalized * _ballSpeed;
+            _ballRigidbody.velocity = _ballRigidbody.velocity.normalized * _ballSpeed;
             if (_ballRigidbody.velocity.x == 0f)
                 _ballRigidbody.velocity = _ballRigidbody.velocity + 20f * Vector3.right;
             if (_ballRigidbody.velocity.y == 0f)
@@ -104,7 +104,7 @@ public class Ball : MonoBehaviour
     public void ChangeStateToIdle()
     {
         _lineRenderer.enabled = true;
-        _currentBallState = State.Idle;
+        _currentBallState = State.Inactive;
     }
 
     public State GetState() { return _currentBallState; }
