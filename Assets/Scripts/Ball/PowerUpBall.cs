@@ -9,12 +9,11 @@ public class PowerUpBall : Ability
     [SerializeField] private float _increaseDamage;
 
     private Ball _ball;
-    private float _timer;
     private Vector3 _oldScale;
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         _ball = GetComponent<Ball>();
-        _timer = _timeToNextCast;
     }
     void Update()
     {

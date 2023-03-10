@@ -11,24 +11,23 @@ public class AbilityController : MonoBehaviour
     void Awake()
     {
         GameplayEventManager.OnEnemyKilled.AddListener(KilledEnemy);
-        GameplayEventManager.OnReceiveAbility.AddListener(RandomActivateAbility);
     }
     private void Start()
     {
         for (int i = 0; i < _countOfStartAbilities; i++)
         {
-            GameplayEventManager.SendReceiveAbility();
+            RandomActivateAbility();
         }
 
     }
     private void Update()
     {
-        if (_counterOfKill >= _numberOfMurdersToNewAbility && _abilities!=null)
+        if (_counterOfKill >= _numberOfMurdersToNewAbility && _abilities.Count > 0)
         {
-            GameplayEventManager.SendReceiveAbility();
+            Debug.Log("_abilities!=null");
+            RandomActivateAbility();
             _counterOfKill -= _numberOfMurdersToNewAbility;
         }
-        //Debug.Log(Random.Range(0, 4));
     }
     private void KilledEnemy()
     {

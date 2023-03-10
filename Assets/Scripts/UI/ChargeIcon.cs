@@ -7,10 +7,6 @@ public class ChargeIcon : MonoBehaviour
 {
     private Image _background;
 
-    private void Awake()
-    {
-        //GameplayEventManager.OnReceiveAbility.AddListener(SetActiveChargeIconGameObject);
-    }
     private void Start()
     {
         _background = GetComponent<Image>();

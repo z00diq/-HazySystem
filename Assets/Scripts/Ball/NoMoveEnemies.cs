@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NoMoveEnemy : Ability
+public class NoMoveEnemies : Ability
 {
     [SerializeField] private float _timeOfAction = 3f;
 
     private EnemyManager _enemyManager;
-    private float _timer;
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         _enemyManager = FindAnyObjectByType<EnemyManager>();
-        _timer = _timeToNextCast;
     }
 
     void Update()
