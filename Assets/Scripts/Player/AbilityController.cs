@@ -23,7 +23,7 @@ public class AbilityController : MonoBehaviour
     }
     private void Update()
     {
-        if (_counterOfKill >= _numberOfMurdersToNewAbility)
+        if (_counterOfKill >= _numberOfMurdersToNewAbility && _abilities!=null)
         {
             GameplayEventManager.SendReceiveAbility();
             _counterOfKill -= _numberOfMurdersToNewAbility;
