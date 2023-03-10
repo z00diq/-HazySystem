@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 2727812167934235808}
   - component: {fileID: 1037401489}
   - component: {fileID: 7263013594002002203}
+  - component: {fileID: 2922037637181761815}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -302,6 +303,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _timeToNextCast: 4
   _radiusOfCast: 4
+  _powerUpBallChargeIcon: {fileID: 0}
+--- !u!114 &2922037637181761815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3973846200420259389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbc57141b7218b42a3da4702d91ce91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timeToNextCast: 10
+  _timeOfAction: 3
+  _stopReproductionChargeIcon: {fileID: 0}
 --- !u!1 &3973846200755751613
 GameObject:
   m_ObjectHideFlags: 0
