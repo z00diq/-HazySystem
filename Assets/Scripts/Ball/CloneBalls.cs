@@ -8,11 +8,7 @@ public class CloneBalls : Ability
     [SerializeField] private int _countOfCollisionsToDie = 5;
     [SerializeField] private Ball _cloneBallPrefab;
 
-    private float _timer;
-    private void Start()
-    {
-        _timer = _timeToNextCast;
-    }
+    
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.C) && _timer > _timeToNextCast)

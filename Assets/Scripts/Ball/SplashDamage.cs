@@ -8,12 +8,12 @@ public class SplashDamage : Ability
     [SerializeField] private float _radiusOfCast = 4;
 
     private Ball _ball;
-    private float _timer;
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         _ball = GetComponent<Ball>();
-        _timer = _timeToNextCast;
     }
+    
 
     void Update()
     {

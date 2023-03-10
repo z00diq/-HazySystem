@@ -10,13 +10,12 @@ public class GoBack : Ability
     [SerializeField] private float _timeToBackInSeconds = 2f;
 
     private Ball _ball;
-    private float _timer;
     private PlayerMove _playerMove;
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         _ball = GetComponent<Ball>();
         _playerMove = FindAnyObjectByType<PlayerMove>();
-        _timer = _timeToNextCast;
     }
 
     void Update()

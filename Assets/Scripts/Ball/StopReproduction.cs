@@ -8,11 +8,10 @@ public class StopReproduction : Ability
     
 
     private EnemyManager _enemyManager;
-    private float _timer;
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         _enemyManager = FindAnyObjectByType<EnemyManager>();
-        _timer = _timeToNextCast;
     }
 
     void Update()
