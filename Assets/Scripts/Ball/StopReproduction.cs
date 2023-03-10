@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class StopReproduction : MonoBehaviour
 {
-    [SerializeField] private float _timeToNextCast;
-    [SerializeField] private float _timeOfAction;
+    [SerializeField] private float _timeToNextCast = 20f;
+    [SerializeField] private float _timeOfAction = 6f;
     [SerializeField] private ChargeIcon _stopReproductionChargeIcon;
 
     private EnemyManager _enemyManager;

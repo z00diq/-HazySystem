@@ -7,7 +7,6 @@ using UnityEngine.Events;
 public class GoBack : MonoBehaviour
 {
 
-    [SerializeField] private Transform _playerTrasform;
     [SerializeField] private float _timeToBackInSeconds = 2f;
     [SerializeField] private float _timeToNextCast = 10f;
     [SerializeField] private ChargeIcon _goBackChargeIcon;
@@ -26,7 +25,7 @@ public class GoBack : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.G) && _timer > _timeToNextCast)
         {
-            StartCoroutine(Back(_timeToBackInSeconds, _playerTrasform.position + Vector3.up));
+            StartCoroutine(Back(_timeToBackInSeconds, _playerMove.transform.position + Vector3.up));
             _timer = 0;
         }
         if (_ball.GetState() == State.Active)
@@ -50,7 +49,7 @@ public class GoBack : MonoBehaviour
             transform.position = Vector3.Lerp(startBallPosition, targetPosition, fraction);
             yield return null;
         }
-        _ball.ChangeStateToIdle();
+        _ball.SetState(State.Inactive);
         _ball.AttackType = AttackType.Default;
         _ball.DamageValue -= 10000000;
         _playerMove.SetState(State.Active);

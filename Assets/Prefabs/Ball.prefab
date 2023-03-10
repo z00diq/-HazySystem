@@ -286,7 +286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae1f944ce04a4114db6afe4697a87ec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerTrasform: {fileID: 0}
   _timeToBackInSeconds: 1
   _timeToNextCast: 10
   _goBackChargeIcon: {fileID: 0}
