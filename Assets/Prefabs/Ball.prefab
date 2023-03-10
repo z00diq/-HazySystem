@@ -193,12 +193,14 @@ GameObject:
   m_Component:
   - component: {fileID: 3973846200420259328}
   - component: {fileID: 3973846200420259390}
+  - component: {fileID: 5967170784318442877}
   - component: {fileID: 7771408274935446926}
   - component: {fileID: 2727812167934235808}
   - component: {fileID: 1037401489}
   - component: {fileID: 7263013594002002203}
   - component: {fileID: 2922037637181761815}
   - component: {fileID: 2420730375300870}
+  - component: {fileID: 1861848130}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -240,6 +242,18 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 120
   m_CollisionDetection: 0
+--- !u!114 &5967170784318442877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3973846200420259389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d1a98cdc4ce8144b8e9f3110434222b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7771408274935446926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,6 +348,24 @@ MonoBehaviour:
   _timeToNextCast: 10
   _timeOfAction: 3
   _noMoveEnemyChargeIcon: {fileID: 0}
+--- !u!114 &1861848130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3973846200420259389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88153ad8a1d6b624cb335f54911da68f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timeToNextCast: 6
+  _numberOfClones: 2
+  _countOfCollisionsToDie: 5
+  _aLotOfBallsChargeIcon: {fileID: 0}
+  _cloneBallPrefab: {fileID: 5380790496199341550, guid: 3fcc64d06705eb94da917aee51d2e33d,
+    type: 3}
 --- !u!1 &3973846200755751613
 GameObject:
   m_ObjectHideFlags: 0
