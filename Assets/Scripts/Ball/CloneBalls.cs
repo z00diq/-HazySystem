@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CloneBalls : MonoBehaviour
+public class CloneBalls : Ability
 {
-    [SerializeField] private float _timeToNextCast = 7f;
     [SerializeField] private int _numberOfClones = 2;
     [SerializeField] private int _countOfCollisionsToDie = 5;
-    [SerializeField] private ChargeIcon _aLotOfBallsChargeIcon;
     [SerializeField] private Ball _cloneBallPrefab;
 
     private float _timer;
@@ -23,7 +21,7 @@ public class CloneBalls : MonoBehaviour
             _timer = 0;
         }
         _timer += Time.deltaTime;
-        _aLotOfBallsChargeIcon.SetChargeValue(_timer, _timeToNextCast);
+        ChargeIcon.SetChargeValue(_timer, _timeToNextCast);
     }
     private void Reproduction(int numberOfClones)
     {

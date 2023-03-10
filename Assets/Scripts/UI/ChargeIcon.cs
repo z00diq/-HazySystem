@@ -6,6 +6,11 @@ using UnityEngine.UI;
 public class ChargeIcon : MonoBehaviour
 {
     private Image _background;
+
+    private void Awake()
+    {
+        //GameplayEventManager.OnReceiveAbility.AddListener(SetActiveChargeIconGameObject);
+    }
     private void Start()
     {
         _background = GetComponent<Image>();
@@ -14,4 +19,5 @@ public class ChargeIcon : MonoBehaviour
     {
         _background.fillAmount = currentCharge / maxCharge;
     }
+    
 } 

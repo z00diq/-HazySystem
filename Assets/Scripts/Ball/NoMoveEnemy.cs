@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NoMoveEnemy : MonoBehaviour
+public class NoMoveEnemy : Ability
 {
-    [SerializeField] private float _timeToNextCast = 7f;
     [SerializeField] private float _timeOfAction = 3f;
-    [SerializeField] private ChargeIcon _noMoveEnemyChargeIcon;
 
     private EnemyManager _enemyManager;
     private float _timer;
@@ -24,6 +22,6 @@ public class NoMoveEnemy : MonoBehaviour
             _timer = 0;
         }
         _timer += Time.deltaTime;
-        _noMoveEnemyChargeIcon.SetChargeValue(_timer, _timeToNextCast);
+        ChargeIcon.SetChargeValue(_timer, _timeToNextCast);
     }
 }

@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StopReproduction : MonoBehaviour
+public class StopReproduction : Ability
 {
-    [SerializeField] private float _timeToNextCast = 20f;
     [SerializeField] private float _timeOfAction = 6f;
-    [SerializeField] private ChargeIcon _stopReproductionChargeIcon;
+    
 
     private EnemyManager _enemyManager;
     private float _timer;
@@ -24,6 +23,6 @@ public class StopReproduction : MonoBehaviour
             _timer = 0;
         }
         _timer += Time.deltaTime;
-        _stopReproductionChargeIcon.SetChargeValue(_timer, _timeToNextCast);
+        ChargeIcon.SetChargeValue(_timer, _timeToNextCast);
     }
 }
