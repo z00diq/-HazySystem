@@ -9,10 +9,21 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _winPanel;
     [SerializeField] private GameObject _loosePanel;
     [SerializeField] private GameObject _choosingLevelPanel;
+    [SerializeField] private GameObject _startingPanel;
 
     public void RestartButton_OnButtonClick()
     {
         _gameStateController.InitLevel();
+    }
+
+    public void StartGameButton_OnButtonClick()
+    {
+        _choosingLevelPanel.SetActive(true);
+    }
+
+    public void QuitGameButton_OnButtonClick()
+    {
+        Application.Quit();
     }
 
     private void OnEnable()

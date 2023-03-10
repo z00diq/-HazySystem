@@ -198,24 +198,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2063621551820179556, guid: 76fada193baf20a40b16195694658b8e,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063621551820179556, guid: 76fada193baf20a40b16195694658b8e,
-        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 2767323613768470969}
-    - target: {fileID: 2063621551820179556, guid: 76fada193baf20a40b16195694658b8e,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9089952988167362730, guid: 76fada193baf20a40b16195694658b8e,
-        type: 3}
-      propertyPath: m_text
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76fada193baf20a40b16195694658b8e, type: 3}
 --- !u!224 &2896518524409774247 stripped
@@ -234,7 +219,7 @@ PrefabInstance:
     - target: {fileID: 416798680183372772, guid: 76fada193baf20a40b16195694658b8e,
         type: 3}
       propertyPath: m_Name
-      value: LevelButton (1)
+      value: LevelButton
       objectReference: {fileID: 0}
     - target: {fileID: 1032734345571365358, guid: 76fada193baf20a40b16195694658b8e,
         type: 3}
