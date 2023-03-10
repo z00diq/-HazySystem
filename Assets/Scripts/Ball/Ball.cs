@@ -6,7 +6,7 @@ using UnityEngine;
 
 public enum State
 {
-    Idle,
+    Inactive,
     Active
 }
 public enum AttackType
@@ -17,6 +17,7 @@ public enum AttackType
 public class Ball : MonoBehaviour
 {
     public float DamageValue;
+    public AttackType AttackType { get; set; }
 
     [SerializeField] private float _ballSpeed = 10f;
     [SerializeField] private Rigidbody _ballRigidbody;
@@ -28,7 +29,6 @@ public class Ball : MonoBehaviour
     private Camera _playerCamera;
     private Vector3 _directionOfMovement;
     private State _currentBallState;
-    public AttackType AttackType = AttackType.Default;
     private void Start()
     {
         _playerCamera = Camera.main;
@@ -37,7 +37,7 @@ public class Ball : MonoBehaviour
 
     void Update()
     {
-        if (_currentBallState == State.Idle)
+        if (_currentBallState == State.Inactive)
         {
             transform.position = _playerTrnasform.position + Vector3.up;
             _directionOfMovement = SetDirectionOfMovement();
@@ -61,8 +61,7 @@ public class Ball : MonoBehaviour
         //исправление для того, чтобы не было постоянного горизонтального или вертикального движения
         if (_currentBallState == State.Active)
         {
-            
-            //_ballRigidbody.velocity = _ballRigidbody.velocity.normalized * _ballSpeed;
+            _ballRigidbody.velocity = _ballRigidbody.velocity.normalized * _ballSpeed;
             if (_ballRigidbody.velocity.x == 0f)
                 _ballRigidbody.velocity = _ballRigidbody.velocity + 20f * Vector3.right;
             if (_ballRigidbody.velocity.y == 0f)
@@ -101,14 +100,23 @@ public class Ball : MonoBehaviour
         _lineRenderer.SetPosition(0, Vector3.zero);
         _lineRenderer.SetPosition(1, end);
     }
-    public void ChangeStateToIdle()
+    /*public void ChangeStateToInactive()
     {
         _lineRenderer.enabled = true;
-        _currentBallState = State.Idle;
-    }
+        _currentBallState = State.Inactive;
+    }*/
+    
 
     public State GetState() { return _currentBallState; }
-    
+    public void SetState(State state)
+    { 
+        _currentBallState = state;
+        if (_currentBallState == State.Active)
+            _lineRenderer.enabled = false;
+        else
+            _lineRenderer.enabled = true;
+    }
+
 
     public IEnumerator SlowBallForTime(float divider, float time)
     {

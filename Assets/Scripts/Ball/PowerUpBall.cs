@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PowerUpBall : MonoBehaviour
 {
-    [SerializeField] private float _timeToNextCast;
-    [SerializeField] private float _timeOfAction;
+    [SerializeField] private float _timeToNextCast = 24f;
+    [SerializeField] private float _timeOfAction = 7f;
     [SerializeField] private float _scalePowerUpBall = 1.4f;
     [SerializeField] private float _increaseDamage;
     [SerializeField] private ChargeIcon _powerUpBallChargeIcon;
