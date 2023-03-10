@@ -7,6 +7,8 @@ public class GameStateController : MonoBehaviour
 {
     public static Action OnWin;
     public static Action OnLoose;
+    public static Action OnPause;
+    public static Action OnUnPause;
 
     public Level CurrentLevel => _currentLevel;
 
@@ -47,16 +49,9 @@ public class GameStateController : MonoBehaviour
     {
         Enemy.OnBorn += Enemy_OnBorn;
         Enemy.OnDeath += Enemy_OnDeath;
-    }
-
-    private void Enemy_OnDeath(float hazzard)
-    {
-        _currentHazzard -= hazzard;
-    }
-
-    private void Enemy_OnBorn(float hazzard)
-    {
-        _currentHazzard += hazzard;
+        UIManager.OnUnPauseButtonClick += UIManager_OnUnPauseButtonClick;
+        UIManager.OnToLevelsButtonClick += UIManager_OnToLevelsButtonClick;
+        UIManager.OnToMainMenyButtonClick += UIManager_OnToMainMenyButtonClick;
     }
 
     private void Update()
@@ -111,9 +106,42 @@ public class GameStateController : MonoBehaviour
         }
 
         if (isPause)
+        {
             Time.timeScale = 0;
+            OnPause?.Invoke();
+        }
         else
+        {
+            OnUnPause?.Invoke();
             Time.timeScale = 1;
+        }
+    }
+
+    private void Enemy_OnDeath(float hazzard)
+    {
+        _currentHazzard -= hazzard;
+    }
+
+    private void Enemy_OnBorn(float hazzard)
+    {
+        _currentHazzard += hazzard;
+    }
+
+    private void UIManager_OnUnPauseButtonClick()
+    {
+        isPause = false;
+    }
+
+    private void UIManager_OnToLevelsButtonClick()
+    {
+        isPause = false;
+        UnactiveCurrentLevel();
+    }
+
+    private void UIManager_OnToMainMenyButtonClick()
+    {
+        isPause = false;
+        UnactiveCurrentLevel();
     }
 
     private void PauseGame()
@@ -130,12 +158,17 @@ public class GameStateController : MonoBehaviour
     private void LooseLevel()
     {
         OnLoose?.Invoke();
-        _currentLevel.gameObject.SetActive(false);
+        UnactiveCurrentLevel();
     }
 
     private void Winlevel()
     {
         OnWin?.Invoke();
+        UnactiveCurrentLevel();
+    }
+
+    private void UnactiveCurrentLevel()
+    {
         _currentLevel.gameObject.SetActive(false);
     }
 }
