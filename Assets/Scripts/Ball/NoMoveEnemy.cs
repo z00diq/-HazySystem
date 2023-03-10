@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class NoMoveEnemy : MonoBehaviour
 {
-    [SerializeField] private float _timeToNextCast;
-    [SerializeField] private float _timeOfAction;
+    [SerializeField] private float _timeToNextCast = 7f;
+    [SerializeField] private float _timeOfAction = 3f;
     [SerializeField] private ChargeIcon _noMoveEnemyChargeIcon;
 
     private EnemyManager _enemyManager;
