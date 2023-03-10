@@ -5,14 +5,14 @@ using UnityEngine.Events;
 
 public class EnemyManager : MonoBehaviour
 {
-    [SerializeField] private EnemiesGlobalValues _enemiesValues;
+    [SerializeField] private EnemiesLevelRules _enemiesRules;
 
     [SerializeField] private GameObject _enemyPrefab;
 
     public float SpawnDistance = 0.2f;
 
     public int EnemyCount;
-    private List<Enemy> EnemyList = new List<Enemy>();
+    public List<Enemy> EnemyList = new List<Enemy>();
 
     public float ReproductionPeriod;
     public float AbilityPeriod;
@@ -35,9 +35,17 @@ public class EnemyManager : MonoBehaviour
 
     private void Awake()
     {
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        foreach (Enemy enemy in enemies) 
+        {
+            EnemyList.Add(enemy);
+        }
+
+        EnemyCount += FindObjectsOfType<Enemy>().Length;
+
         CanReproduce = true;
-        ReproductionPeriod = _enemiesValues.ReproductionPeriodBase;
-        AbilityPeriod = _enemiesValues.AbilityPeriod;
+        ReproductionPeriod = _enemiesRules.ReproductionPeriodBase;
+        AbilityPeriod = _enemiesRules.AbilityPeriod;
 
         Reproduce(transform.position);
     }
@@ -49,24 +57,44 @@ public class EnemyManager : MonoBehaviour
             GameObject newCells = Instantiate(_enemyPrefab, position, Quaternion.identity);
             Enemy newCellsEnemy = newCells.GetComponent<Enemy>();
             EnemyReproduce newCellsEnemyReproduce = newCells.GetComponent<EnemyReproduce>();
+            EnemyDefense newCellsDefense = newCells.GetComponent<EnemyDefense>();
+            EnemySlowBall newCellSlowBall = newCells.GetComponent<EnemySlowBall>();
 
             newCellsEnemy.Initialize(this,
                 SetupMaxHealth(),                       // max health
-                CanHaveAbilities(),                     // invul
                 CanHaveAbilities(),                     // can heal himself
                 CanHaveAbilities(),                     // can heal another
                 CanHaveAbilities(),                     // can transfer damage
-                CanHaveAbilities(),                     // can change position
-                CanHaveAbilities()                      // can slow ball
+                CanHaveAbilities()                      // can change position
                 );
-            newCellsEnemyReproduce.Initialize(this,
+            
+            newCellsEnemyReproduce.Initialize(
+                this,
                 CanHaveAbilities()                      // fast reproduction
                 );
+            
+            if (CanHaveAbilities())
+            {
+                newCellsDefense.Initialize(true);
+            }
+            else
+            {
+                newCellsDefense.enabled = false;
+            }
+
+            if (CanHaveAbilities())
+            {
+                newCellSlowBall.Initialize(true);
+            }
+            else
+            {
+                newCellSlowBall.enabled = false;
+            }
+
 
             newCells.transform.parent = transform;
             newCells.gameObject.name = "Enemy" + EnemyCount;
             EnemyCount++;
-
             EnemyList.Add(newCellsEnemy);
         }
     }
@@ -75,7 +103,6 @@ public class EnemyManager : MonoBehaviour
     {
         if (Physics.CheckBox(position, new Vector3(0.06f, 0.06f, 0.05f), Quaternion.identity))
         {
-            //Debug.Log($"“€ ≈¡¿Õ”À—ﬂ, “”“ ≈—“‹ Œ¡⁄≈ “ {position}");
             return false;
         }
         else
@@ -86,21 +113,12 @@ public class EnemyManager : MonoBehaviour
 
     private bool CanHaveAbilities()
     {
-        return (int)Random.Range(0, 100) <= _enemiesValues.ChanceGetAbility ? true: false;
+        return (int)Random.Range(0, 100) <= _enemiesRules.ChanceGetAbility ? true: false;
     }
 
     private float SetupMaxHealth()
     {
-        return (int)Random.Range(0, 100) <= _enemiesValues.ChanceGetAbility ? _enemiesValues.MaximumHealthForCells : _enemiesValues.MinimumHealthForCells;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("Change Reproduction");
-            CanReproduce = !CanReproduce;
-        }
+        return (int)Random.Range(0, 100) <= _enemiesRules.ChanceGetAbility ? _enemiesRules.MaximumHealthForCells : _enemiesRules.MinimumHealthForCells;
     }
 
     public IEnumerator StopReproduce(float time)
@@ -115,7 +133,24 @@ public class EnemyManager : MonoBehaviour
 
     public IEnumerator StopEnemyMoving(float time)
     {
+
+
         yield return null;
     }
 
+
+    public IEnumerator HealAnotherEnemy(float time, Enemy healer)
+    {
+        WaitForSeconds wait = new WaitForSeconds(time);
+
+        while (true)
+        {
+            yield return wait;
+        }
+    }
+
+    public void DeleteEnemyFromList(Enemy deadEnemy)
+    {
+        EnemyList.Remove(deadEnemy);
+    }
 }

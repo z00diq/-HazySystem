@@ -1,13 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using static UnityEngine.Rendering.DebugUI;
 
 public class EnemyReproduce : MonoBehaviour
 {
-    // DEBUG
-    [SerializeField] private bool _canShowRays;
-
     [SerializeField] private EnemyManager _enemyManager;
 
     [SerializeField] private float _reproductionPeriod;
@@ -15,11 +13,19 @@ public class EnemyReproduce : MonoBehaviour
     private Coroutine ReproduceCoroutine;
 
     [SerializeField] private List<Vector3> _rayDirections = new List<Vector3>();
-    
-    public void Initialize(EnemyManager EnemyManager, bool haveFastReproduction)
+
+    public void Initialize(EnemyManager enemyManager, bool haveFastReproduction)
     {
-        _enemyManager = EnemyManager;
+        _enemyManager = enemyManager;
         SetupReproductionPeriod(haveFastReproduction);
+    }
+
+    private void Start()
+    {
+        if (_enemyManager == null)
+        {
+            _enemyManager = GetComponentInParent<EnemyManager>();
+        }
 
         _enemyManager.ReproduceRuleChanged.AddListener(OnReproduceChanged);
         StartReproduceCoroutine();
@@ -46,7 +52,6 @@ public class EnemyReproduce : MonoBehaviour
         WaitForSeconds wait = new WaitForSeconds(time);
         while (true)
         {
-            ShowRays();
             yield return wait;
             ReproductionProcess();
         }
@@ -103,14 +108,5 @@ public class EnemyReproduce : MonoBehaviour
 
         _reproductionPeriod = isActive ? _enemyManager.ReproductionPeriod / 2 + offset : _enemyManager.ReproductionPeriod + offset;
         _reproductionPeriod = Mathf.Clamp(_reproductionPeriod, 1, float.PositiveInfinity);
-    }
-
-    //DEBUG
-    private void ShowRays()
-    {
-        for (int i = 0; i < _rayDirections.Count; i++)
-        {
-            Debug.DrawRay(transform.position, _rayDirections[i] * _enemyManager.SpawnDistance);
-        }
     }
 }
