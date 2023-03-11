@@ -2129,10 +2129,6 @@ PrefabInstance:
       propertyPath: <ChargeIcon>k__BackingField
       value: 
       objectReference: {fileID: 2058646195}
-    - target: {fileID: 1606611974, guid: 9d570df358c38664397cde42c44cf5f7, type: 3}
-      propertyPath: stopAction
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1861848130, guid: 9d570df358c38664397cde42c44cf5f7, type: 3}
       propertyPath: <ChargeIcon>k__BackingField
       value: 
@@ -2211,12 +2207,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ball
       objectReference: {fileID: 0}
-    - target: {fileID: 7263013594002002203, guid: 9d570df358c38664397cde42c44cf5f7,
-        type: 3}
-      propertyPath: _splashDamagePrefab
-      value: 
-      objectReference: {fileID: 5754986903708483487, guid: c9c505169642bce46a1e4d4e657b9ca0,
-        type: 3}
     - target: {fileID: 7263013594002002203, guid: 9d570df358c38664397cde42c44cf5f7,
         type: 3}
       propertyPath: <ChargeIcon>k__BackingField
