@@ -48,7 +48,7 @@ MonoBehaviour:
   _enemiesRules: {fileID: 9105616593569224278}
   _enemyPrefab: {fileID: 2549634282391921093, guid: bd66296635f234549a667b695e322041,
     type: 3}
-  SpawnDistance: 0.2
+  SpawnDistance: 0.5
   EnemyCount: 0
   EnemyList: []
   ReproductionPeriod: 0
@@ -73,7 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd68436d50aa49a469c74ff3c7941e00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnDistance: 0.2
+  SpawnDistance: 0.5
   ReproductionDelay: 2
   ReproductionPeriodBase: 10
   AbilityPeriod: 10

@@ -47,8 +47,6 @@ public class GameStateController : MonoBehaviour
 
     private void OnEnable()
     {
-        Enemy.OnBorn += Enemy_OnBorn;
-        Enemy.OnDeath += Enemy_OnDeath;
         UIManager.OnUnPauseButtonClick += UIManager_OnUnPauseButtonClick;
         UIManager.OnToLevelsButtonClick += UIManager_OnToLevelsButtonClick;
         UIManager.OnToMainMenyButtonClick += UIManager_OnToMainMenyButtonClick;

@@ -22,13 +22,12 @@ public class Level : MonoBehaviour
             gameObject.SetActive(true);
         }
 
-        _enemyManager.ClearEnemies();
         Invoke(nameof(InitEnemySpawner),3f);
     }
 
     private void InitEnemySpawner()
     {
-        _enemyManager.Infestation();
+
     }
 
     private void GameStateController_OnWin()
