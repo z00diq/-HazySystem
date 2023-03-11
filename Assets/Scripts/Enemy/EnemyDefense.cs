@@ -9,7 +9,7 @@ public class EnemyDefense : MonoBehaviour
     [SerializeField] private Renderer _renderer;
     [SerializeField] private bool _canDefence;
     private bool _haveDefence;
-    [SerializeField] private float _defencePeriod;
+    private float _defencePeriod;
     [SerializeField] private float _defenceDuration;
 
     private void Awake()
@@ -17,9 +17,10 @@ public class EnemyDefense : MonoBehaviour
         _enemyManager = _enemy.EnemyManager;
     }
 
-    public void Initialize(bool canDefence)
+    public void Initialize(bool canDefence, float defencePeriod)
     {
         _canDefence = canDefence;
+        _defencePeriod = defencePeriod;
 
         if (_canDefence)
         {
