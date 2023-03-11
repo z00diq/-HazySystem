@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemiesLevelRules : MonoBehaviour
 {
     [SerializeField] public float SpawnDistance;
+    [SerializeField] public float ReproductionDelay;
     [SerializeField] public float ReproductionPeriodBase;
     [SerializeField] public float AbilityPeriod;
 

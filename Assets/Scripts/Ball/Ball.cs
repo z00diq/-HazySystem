@@ -50,7 +50,7 @@ public class Ball : MonoBehaviour
 
         if (transform.position.y < 0)
         {
-            Debug.Log("GameOver");
+            //Debug.Log("GameOver");
         }
         //Debug.Log(_ballRigidbody.velocity.magnitude);
     }

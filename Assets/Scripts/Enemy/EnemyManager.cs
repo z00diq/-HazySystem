@@ -18,11 +18,12 @@ public class EnemyManager : MonoBehaviour
     public float AbilityPeriod;
 
     public UnityEvent<bool> ReproduceRuleChanged;
+    public UnityEvent<bool> MovingRuleChanged;
 
-    [SerializeField] private bool _canReproduce;
+    [SerializeField] private bool _canReproduce = true;
     public bool CanReproduce
     {
-        get => _canReproduce;
+        get { return _canReproduce; }
         set
         {
             if (_canReproduce != value)
@@ -30,6 +31,20 @@ public class EnemyManager : MonoBehaviour
                 ReproduceRuleChanged?.Invoke(value);
             }
             _canReproduce = value;
+        }
+    }
+
+    [SerializeField] private bool _canMoving = true;
+    public bool CanMoving
+    {
+        get { return _canMoving; }
+        set
+        {
+            if (_canMoving != value)
+            {
+                MovingRuleChanged?.Invoke(value);
+            }
+            _canMoving = value;
         }
     }
 
@@ -45,11 +60,20 @@ public class EnemyManager : MonoBehaviour
 
         EnemyCount += FindObjectsOfType<Enemy>().Length;
 
-        CanReproduce = true;
+        StartCoroutine(ReproduceStartDelay());
         ReproductionPeriod = _enemiesRules.ReproductionPeriodBase;
         AbilityPeriod = _enemiesRules.AbilityPeriod;
 
         Reproduce(transform.position);
+    }
+
+    private IEnumerator ReproduceStartDelay()
+    {
+        WaitForSeconds wait = new WaitForSeconds(_enemiesRules.ReproductionDelay);
+
+        CanReproduce = false;
+        yield return wait;
+        CanReproduce = true;
     }
 
     public void Reproduce(Vector3 position)
@@ -61,21 +85,104 @@ public class EnemyManager : MonoBehaviour
             EnemyReproduce newCellsEnemyReproduce = newCells.GetComponent<EnemyReproduce>();
             EnemyDefense newCellsDefense = newCells.GetComponent<EnemyDefense>();
             EnemySlowBall newCellSlowBall = newCells.GetComponent<EnemySlowBall>();
+            EnemyMoving newCellsMoving = newCells.GetComponent<EnemyMoving>();
+
+            bool thisCanFastReproduction = false;
+            bool thisCanHaveBiggerHealth = false;
+            bool thisCanDefence = false;
+            bool thisCanSlowBall = false;
+            bool thisCanHealHimself = false;
+            bool thisCanHealAnother = false;
+            bool thisCanTransferDamage = false;
+            bool thisCanChangePosition = false;
+
+            void GetAbilities()
+            {
+                if (CanHaveAbilities())
+                {
+                    int AbilityNumber = (int)Random.Range(0, 8);
+                    switch (AbilityNumber)
+                    {
+                        case 0:
+                            if (thisCanFastReproduction || !_enemiesRules.CanHaveFastReproduction) GetAbilities();
+                            else
+                            {
+                                thisCanFastReproduction = true;
+                            }
+                            break;
+                        case 1:
+                            if (thisCanHaveBiggerHealth || !_enemiesRules.CanHaveBiggerHealth) GetAbilities();
+                            else
+                            {
+                                thisCanHaveBiggerHealth = true;
+                            }
+                            break;
+                        case 2:
+                            if (thisCanDefence || !_enemiesRules.CanDefence) GetAbilities();
+                            else
+                            {
+                                thisCanDefence = true;
+                            }
+                            break;
+                        case 3:
+                            if (thisCanSlowBall || !_enemiesRules.CanSlowBall) GetAbilities();
+                            else
+                            {
+                                thisCanSlowBall = true;
+                            }
+                            break;
+                        case 4:
+                            if (thisCanHealHimself || !_enemiesRules.CanHealHimself) GetAbilities();
+                            else
+                            {
+                                thisCanHealHimself = true;
+                            }
+                            break;
+                        case 5:
+                            if (thisCanHealAnother || !_enemiesRules.CanHealAnother) GetAbilities();
+                            else
+                            {
+                                thisCanHealAnother = true;
+                            }
+                            break;
+                        case 6:
+                            if (thisCanTransferDamage || !_enemiesRules.CanTransferDamage) GetAbilities();
+                            else
+                            {
+                                thisCanTransferDamage = true;
+                            }
+                            break;
+                        case 7:
+                            if (thisCanChangePosition || !_enemiesRules.CanChangePosition) GetAbilities();
+                            else
+                            {
+                                thisCanChangePosition = true;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            for (int i = 0; i < _enemiesRules.EnemyMaximumAbilities; i++)
+            {
+                GetAbilities();
+            }
 
             newCellsEnemy.Initialize(this,
-                SetupMaxHealth(),                       // max health
-                CanHaveAbilities(),                     // can heal himself
-                CanHaveAbilities(),                     // can heal another
-                CanHaveAbilities(),                     // can transfer damage
-                CanHaveAbilities()                      // can change position
+                SetupMaxHealth(thisCanHaveBiggerHealth),    // max health
+                thisCanHealHimself,                         // can heal himself
+                thisCanHealAnother,                         // can heal another
+                thisCanTransferDamage                       // can transfer damage
                 );
 
             newCellsEnemyReproduce.Initialize(
                 this,
-                CanHaveAbilities()                      // fast reproduction
+                thisCanFastReproduction                     // fast reproduction
                 );
 
-            if (CanHaveAbilities())
+            if (thisCanDefence)
             {
                 newCellsDefense.Initialize(true, AbilityPeriod);
             }
@@ -84,13 +191,18 @@ public class EnemyManager : MonoBehaviour
                 newCellsDefense.enabled = false;
             }
 
-            if (CanHaveAbilities())
+            if (thisCanSlowBall)
             {
                 newCellSlowBall.Initialize(true, AbilityPeriod);
             }
             else
             {
                 newCellSlowBall.enabled = false;
+            }
+
+            if (thisCanChangePosition)
+            {
+                newCellsMoving.Initialize(true, AbilityPeriod);
             }
 
 
@@ -118,28 +230,30 @@ public class EnemyManager : MonoBehaviour
         return (int)Random.Range(0, 100) <= _enemiesRules.ChanceGetAbility ? true : false;
     }
 
-    private float SetupMaxHealth()
+    private float SetupMaxHealth(bool value)
     {
-        return (int)Random.Range(0, 100) <= _enemiesRules.ChanceGetAbility ? _enemiesRules.MaximumHealthForCells : _enemiesRules.MinimumHealthForCells;
+        return value ? _enemiesRules.MaximumHealthForCells : _enemiesRules.MinimumHealthForCells;
     }
 
     public IEnumerator StopReproduce(float time)
     {
         CanReproduce = false;
-
-        WaitForSeconds wait = new WaitForSeconds(time);
-        yield return wait;
-
+        yield return new WaitForSeconds(time);
         CanReproduce = true;
     }
 
     public IEnumerator StopEnemyMoving(float time)
     {
-
-
-        yield return null;
+        CanMoving = false;
+        yield return new WaitForSeconds(time);
+        CanMoving = true;
     }
 
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.S)) StartCoroutine(StopReproduce(1000));
+    }
 
     public bool HealEnemy(Enemy healer)
     {
@@ -153,10 +267,8 @@ public class EnemyManager : MonoBehaviour
             {
                 target = EnemyList[(int)Random.Range(0, EnemyList.Count - 1)];
                 if (target != healer && target.CurrentHealth < target.MaxHealth)
-                {
-                    healer.HealAnother();
+                {                    
                     target.Heal();
-
                     return true;
                 }
             }
@@ -165,7 +277,7 @@ public class EnemyManager : MonoBehaviour
         return false;
     }
 
-    public void TransferDamage(Enemy hittenEnemy, Ball ball)
+    public bool TransferDamage(Enemy hittenEnemy, Ball ball)
     {
         if (EnemyList.Count > 2)
         {
@@ -175,12 +287,19 @@ public class EnemyManager : MonoBehaviour
             for (var i = 0; i < tryToTransfer; i++)
             {
                 target = EnemyList[(int)Random.Range(0, EnemyList.Count - 1)];
-                if (target != hittenEnemy && target.CurrentHealth < target.MaxHealth)
+                Debug.Log(target.name);
+                if (target != hittenEnemy && target.CurrentHealth == target.MaxHealth)
                 {
                     target.TakeDamage(ball);
+                    target.TransferOUT();
+                    hittenEnemy.TransferIN();
+
+                    return true;
                 }
             }
         }
+
+        return false;
     }
 
     public void DeleteEnemyFromList(Enemy deadEnemy)

@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Renderer _renderer;
     [SerializeField] private GameObject _particalSystemHealHimself;
     [SerializeField] private GameObject _particalSystemHealAnother;
+    [SerializeField] private GameObject _particalSystemTransferIn;
+    [SerializeField] private GameObject _particalSystemTransferOut;
 
     // link to the higher mind
     public EnemyManager EnemyManager;
@@ -20,17 +22,14 @@ public class Enemy : MonoBehaviour
     // about health
     public float MaxHealth;
     public float CurrentHealth;
-    private bool _isAlive = true;
+
     [SerializeField] private bool _canHealHimself;
     [SerializeField] private bool _canHealAnotherEnemy;
     [SerializeField] private bool _canTransferDamage;
 
-    // position
-    [SerializeField] private bool _canChangePosition;
-
     [SerializeField] private float _abilityTimer;
 
-    public void Initialize(EnemyManager EnemyManager, float maxHealth, bool canHealHimself, bool canHealAnotherEnemy, bool canTransferDamage, bool canChangePosition)
+    public void Initialize(EnemyManager EnemyManager, float maxHealth, bool canHealHimself, bool canHealAnotherEnemy, bool canTransferDamage)
     {
         this.EnemyManager = EnemyManager;
 
@@ -40,21 +39,19 @@ public class Enemy : MonoBehaviour
         _canHealHimself = canHealHimself;
         _canHealAnotherEnemy = canHealAnotherEnemy;
         _canTransferDamage = canTransferDamage;
-        _canChangePosition = canChangePosition;
-
     }
 
     private void Awake()
     {
         if (EnemyManager == null)
         {
-            EnemyManager = GetComponentInParent<EnemyManager>();
+            EnemyManager = FindObjectOfType<EnemyManager>();
         }
     }
 
     private void Update()
     {
-        if (_abilityTimer > EnemyManager.AbilityPeriod)
+        if (_abilityTimer > EnemyManager.AbilityPeriod && _abilityTimer < EnemyManager.AbilityPeriod * 2)
         {
             if (_canHealHimself)
             {
@@ -64,6 +61,10 @@ public class Enemy : MonoBehaviour
             {
                 HealAnother();
             }
+            _abilityTimer += Time.deltaTime;
+        }
+        else if(_abilityTimer > EnemyManager.AbilityPeriod * 2)
+        {
             _abilityTimer = 0;
         }
         else
@@ -86,14 +87,17 @@ public class Enemy : MonoBehaviour
         {
             if (_abilityTimer > EnemyManager.AbilityPeriod && _canTransferDamage)
             {
-                EnemyManager.TransferDamage(this, ball);
+                if (!EnemyManager.TransferDamage(this, ball))
+                {
+                    CurrentHealth -= ball.DamageValue;
+                }
             }
             else
             {
                 CurrentHealth -= ball.DamageValue;
             }
 
-            if (_isAlive = CheckDeath())
+            if (CheckDeath())
             {
                 Death();
             }
@@ -115,14 +119,29 @@ public class Enemy : MonoBehaviour
 
     public void Heal()
     {
-        StartCoroutine(PlayParticle(_particalSystemHealHimself));
-        CurrentHealth++;
+        if (CurrentHealth < MaxHealth)
+        {
+            StartCoroutine(PlayParticle(_particalSystemHealHimself));
+            CurrentHealth++;
+            _abilityTimer = 0;
+        }
     }
 
     public void HealAnother()
     {
         bool doHeal = EnemyManager.HealEnemy(this);
         if (doHeal) StartCoroutine(PlayParticle(_particalSystemHealAnother));
+        _abilityTimer = 0;
+    }
+
+    public void TransferIN()
+    {
+        StartCoroutine(PlayParticle(_particalSystemTransferIn));
+    }
+
+    public void TransferOUT()
+    {
+        StartCoroutine(PlayParticle(_particalSystemTransferOut));
     }
 
     private IEnumerator PlayParticle(GameObject particle)
@@ -134,6 +153,7 @@ public class Enemy : MonoBehaviour
         particle.SetActive(false);
     }
 
+    /*
     public IEnumerator UseAbility()
     {
         WaitForSeconds wait = new WaitForSeconds(EnemyManager.AbilityPeriod);
@@ -151,4 +171,5 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+    */
 }

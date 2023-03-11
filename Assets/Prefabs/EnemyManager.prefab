@@ -48,7 +48,7 @@ MonoBehaviour:
   _enemiesRules: {fileID: 9105616593569224278}
   _enemyPrefab: {fileID: 2549634282391921093, guid: bd66296635f234549a667b695e322041,
     type: 3}
-  SpawnDistance: 0
+  SpawnDistance: 0.2
   EnemyCount: 0
   EnemyList: []
   ReproductionPeriod: 0
@@ -56,7 +56,11 @@ MonoBehaviour:
   ReproduceRuleChanged:
     m_PersistentCalls:
       m_Calls: []
+  MovingRuleChanged:
+    m_PersistentCalls:
+      m_Calls: []
   _canReproduce: 1
+  _canMoving: 1
 --- !u!114 &9105616593569224278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,17 +74,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnDistance: 0.2
+  ReproductionDelay: 2
   ReproductionPeriodBase: 10
   AbilityPeriod: 10
   MinimumHealthForCells: 1
   MaximumHealthForCells: 5
   ChanceGetAbility: 50
-  CanHaveFastReproduction: 0
-  CanHaveBiggerHealth: 0
-  CanDefence: 0
+  CanHaveFastReproduction: 1
+  CanHaveBiggerHealth: 1
+  CanDefence: 1
   CanSlowBall: 0
   CanHealHimself: 0
-  CanHealAnother: 0
+  CanHealAnother: 1
   CanTransferDamage: 0
   CanChangePosition: 0
-  EnemyMaximumAbilities: 0
+  EnemyMaximumAbilities: 3

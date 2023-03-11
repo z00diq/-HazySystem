@@ -14,6 +14,8 @@ public class EnemyReproduce : MonoBehaviour
 
     [SerializeField] private List<Vector3> _rayDirections = new List<Vector3>();
 
+    [SerializeField] private EnemyMoving _enemyMoving;
+
     public void Initialize(EnemyManager enemyManager, bool haveFastReproduction)
     {
         _enemyManager = enemyManager;
@@ -24,7 +26,7 @@ public class EnemyReproduce : MonoBehaviour
     {
         if (_enemyManager == null)
         {
-            _enemyManager = GetComponentInParent<EnemyManager>();
+            _enemyManager = FindObjectOfType<EnemyManager>();
         }
 
         _enemyManager.ReproduceRuleChanged.AddListener(OnReproduceChanged);
@@ -53,7 +55,10 @@ public class EnemyReproduce : MonoBehaviour
         while (true)
         {
             yield return wait;
-            ReproductionProcess();
+            if (!_enemyMoving.IsMoving)
+            {
+                ReproductionProcess();
+            }
         }
     }
 

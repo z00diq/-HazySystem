@@ -4,18 +4,11 @@ using UnityEngine;
 
 public class EnemyDefense : MonoBehaviour
 {
-    [SerializeField] private Enemy _enemy;
-    private EnemyManager _enemyManager;
     [SerializeField] private Renderer _renderer;
     [SerializeField] private bool _canDefence;
     private bool _haveDefence;
     private float _defencePeriod;
     [SerializeField] private float _defenceDuration;
-
-    private void Awake()
-    {
-        _enemyManager = _enemy.EnemyManager;
-    }
 
     public void Initialize(bool canDefence, float defencePeriod)
     {
