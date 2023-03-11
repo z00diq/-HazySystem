@@ -43,7 +43,7 @@ public class SplashDamage : Ability
     }
     private void SpawnParticle()
     {
-        var splashDamageParticleSystem = Instantiate(_splashDamagePrefab, transform.position, Quaternion.identity).main;
+        var splashDamageParticleSystem = Instantiate(_splashDamagePrefab, transform.position, Quaternion.identity,transform).main;
         splashDamageParticleSystem.startLifetime = new ParticleSystem.MinMaxCurve(0.1f, (_radiusOfCast - transform.localScale.x / 2)/10f);
     }
 }
