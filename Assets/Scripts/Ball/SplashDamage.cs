@@ -6,7 +6,7 @@ public class SplashDamage : Ability
 {
     
     [SerializeField] private float _radiusOfCast = 4;
-
+    [SerializeField] private ParticleSystem _splashDamagePrefab;
     private Ball _ball;
     protected override void Start()
     {
@@ -21,6 +21,7 @@ public class SplashDamage : Ability
         if (Input.GetKeyDown(KeyCode.S) && _timer > _timeToNextCast)
         {
             SplashDamageCast(_radiusOfCast);
+            SpawnParticle();
             _timer = 0;
         }
         if (_ball.GetState() == State.Active)
@@ -39,5 +40,10 @@ public class SplashDamage : Ability
                 enemy.TakeDamage(_ball);
             }
         }
+    }
+    private void SpawnParticle()
+    {
+        var splashDamageParticleSystem = Instantiate(_splashDamagePrefab, transform.position, Quaternion.identity).main;
+        splashDamageParticleSystem.startLifetime = new ParticleSystem.MinMaxCurve(0.1f, (_radiusOfCast - transform.localScale.x / 2)/10f);
     }
 }
