@@ -43,7 +43,7 @@ public class Ball : MonoBehaviour
     {
         if (_currentBallState == State.Inactive)
         {
-            transform.position = _playerTrnasform.position + Vector3.up;
+            transform.position = _playerTrnasform.position + Vector3.up * 0.5f * (transform.localScale.y + _playerTrnasform.localScale.y);
             _directionOfMovement = SetDirectionOfMovement();
             if (Input.GetMouseButtonDown(0) )
             {
