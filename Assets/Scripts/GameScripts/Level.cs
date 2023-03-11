@@ -6,13 +6,29 @@ using UnityEngine;
 public class Level : MonoBehaviour
 {
     [SerializeField] private GameObject /*здесь будет тип спеллов* возможно это коллекци€*/ _unlockingSpell;
+    [SerializeField] private EnemyManager _enemyManager;
 
     private GameStateController _gameStateController;
 
-    public void InitLevel(GameStateController gameStateController)
+    public void InitLevel(GameStateController gameStateController=null)
     {
-        _gameStateController = gameStateController;
-        _gameStateController.OnWin += GameStateController_OnWin;
+        if (gameStateController != null)
+        {
+            _gameStateController = gameStateController;
+            GameStateController.OnWin += GameStateController_OnWin;
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
+
+        _enemyManager.ClearEnemies();
+        Invoke(nameof(InitEnemySpawner),3f);
+    }
+
+    private void InitEnemySpawner()
+    {
+        _enemyManager.Infestation();
     }
 
     private void GameStateController_OnWin()
