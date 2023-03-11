@@ -328,6 +328,8 @@ MonoBehaviour:
   <ChargeIcon>k__BackingField: {fileID: 0}
   _timeToNextCast: 4
   _radiusOfCast: 4
+  _splashDamagePrefab: {fileID: 5754986903708483487, guid: c9c505169642bce46a1e4d4e657b9ca0,
+    type: 3}
 --- !u!114 &2922037637181761815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,9 +530,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1964198408059057263, guid: d3fbb6cd9a033ee47995e0dc8279fcc5,
         type: 3}
+      propertyPath: stopAction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1964198408059057263, guid: d3fbb6cd9a033ee47995e0dc8279fcc5,
+        type: 3}
       propertyPath: moveWithCustomTransform
       value: 
       objectReference: {fileID: 3973846200420259328}
+    - target: {fileID: 1964198408059057263, guid: d3fbb6cd9a033ee47995e0dc8279fcc5,
+        type: 3}
+      propertyPath: ShapeModule.m_MeshRenderer
+      value: 
+      objectReference: {fileID: 3973846200755751615}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3fbb6cd9a033ee47995e0dc8279fcc5, type: 3}
 --- !u!4 &1606611975 stripped
