@@ -19,10 +19,13 @@ public class Ball : MonoBehaviour
     public float DamageValue;
     public AttackType AttackType { get; set; }
 
-    [SerializeField] private float _ballSpeed = 10f;
+    public float _ballSpeed;
     [SerializeField] private Rigidbody _ballRigidbody;
     [SerializeField] private float _lowerLimitOfTheDirectionOfMovement = 0.5f;
     [SerializeField] private LineRenderer _lineRenderer;
+
+    [SerializeField] public float _ballSpeedFull = 15f;
+    [SerializeField] public float _ballSpeedSlow = 8f;
 
 
     private Transform _playerTrnasform;
@@ -31,6 +34,7 @@ public class Ball : MonoBehaviour
     private State _currentBallState;
     private void Start()
     {
+        _ballSpeed = _ballSpeedFull;
         _playerCamera = Camera.main;
         _playerTrnasform = FindObjectOfType<PlayerMove>().transform;
     }
@@ -118,11 +122,11 @@ public class Ball : MonoBehaviour
     }
 
 
-    public IEnumerator SlowBallForTime(float divider, float time)
+    public IEnumerator SlowBallForTime(float time)
     {
-        _ballSpeed /= divider;
+        _ballSpeed = _ballSpeedSlow;
         yield return new WaitForSeconds(time);
-        _ballSpeed *= divider;
+        _ballSpeed = _ballSpeedFull;
     }
     
 }

@@ -148,28 +148,8 @@ public class Enemy : MonoBehaviour
     {
         particle.SetActive(true);
         particle.GetComponent<ParticleSystem>().Play();
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(4);
         particle.GetComponent<ParticleSystem>().Stop();
         particle.SetActive(false);
     }
-
-    /*
-    public IEnumerator UseAbility()
-    {
-        WaitForSeconds wait = new WaitForSeconds(EnemyManager.AbilityPeriod);
-
-        while (true)
-        {
-            yield return wait;
-            if (_canHealHimself && CurrentHealth < MaxHealth)
-            {
-                Heal();
-            }
-            else if (_canHealAnotherEnemy)
-            {
-                HealAnother();
-            }
-        }
-    }
-    */
 }

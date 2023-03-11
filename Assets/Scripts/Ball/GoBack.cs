@@ -50,5 +50,6 @@ public class GoBack : Ability
         _ball.AttackType = AttackType.Default;
         _ball.DamageValue -= 10000000;
         _playerMove.SetState(State.Active);
+        _ball._ballSpeed = _ball._ballSpeedFull;
     }
 }

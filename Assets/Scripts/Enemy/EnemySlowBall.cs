@@ -10,7 +10,6 @@ public class EnemySlowBall : MonoBehaviour
     private EnemyManager _enemyManager;
 
     [SerializeField] private bool _canSlowBall;
-    [SerializeField] private float _slowBallDivider;
     [SerializeField] private float _slowBallDuration;
     private float _slowBallPeriod;
 
@@ -31,14 +30,17 @@ public class EnemySlowBall : MonoBehaviour
         {
             if (_canSlowBall && ball.AttackType == AttackType.Default)
             {
-                StartCoroutine(SlowBall(ball));
+                if (_enemy.CurrentHealth > ball.DamageValue)
+                {
+                    StartCoroutine(SlowBall(ball));
+                    StartCoroutine(ball.SlowBallForTime(_slowBallDuration));
+                }
             }
         }
     }
 
     public IEnumerator SlowBall(Ball ball)
     {
-        StartCoroutine(ball.SlowBallForTime(_slowBallDivider, _slowBallDuration));
         _canSlowBall = false;
 
         yield return new WaitForSeconds(_slowBallPeriod);
