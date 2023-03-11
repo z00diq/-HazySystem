@@ -21,4 +21,6 @@ public class EnemiesLevelRules : MonoBehaviour
     [SerializeField] public bool CanHealAnother;
     [SerializeField] public bool CanTransferDamage;
     [SerializeField] public bool CanChangePosition;
+
+    [SerializeField] public int EnemyMaximumAbilities;
 }

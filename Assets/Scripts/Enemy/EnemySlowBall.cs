@@ -12,23 +12,24 @@ public class EnemySlowBall : MonoBehaviour
     [SerializeField] private bool _canSlowBall;
     [SerializeField] private float _slowBallDivider;
     [SerializeField] private float _slowBallDuration;
-    [SerializeField] private float _slowBallCooldown;
+    private float _slowBallPeriod;
 
     private void Awake()
     {
         _enemyManager = _enemy.EnemyManager;
     }
 
-    public void Initialize(bool canSlowBall)
+    public void Initialize(bool canSlowBall, float SlowBallCooldown)
     {
-        _canSlowBall= canSlowBall;
+        _canSlowBall = canSlowBall;
+        _slowBallPeriod= SlowBallCooldown;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.rigidbody.GetComponent<Ball>() is Ball ball)
         {
-            if (_canSlowBall)
+            if (_canSlowBall && ball.AttackType == AttackType.Default)
             {
                 StartCoroutine(SlowBall(ball));
             }
@@ -40,7 +41,7 @@ public class EnemySlowBall : MonoBehaviour
         StartCoroutine(ball.SlowBallForTime(_slowBallDivider, _slowBallDuration));
         _canSlowBall = false;
 
-        yield return new WaitForSeconds(_slowBallCooldown);
+        yield return new WaitForSeconds(_slowBallPeriod);
 
         _canSlowBall = true;
     }

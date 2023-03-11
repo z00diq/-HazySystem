@@ -7,7 +7,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private Renderer _renderer;
-    [SerializeField] private ParticleSystem _particalSystem;
+    [SerializeField] private GameObject _particalSystemHealHimself;
+    [SerializeField] private GameObject _particalSystemHealAnother;
 
     // link to the higher mind
     public EnemyManager EnemyManager;
@@ -45,9 +46,7 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        _particalSystem.Stop();
-
-        if (EnemyManager == null) 
+        if (EnemyManager == null)
         {
             EnemyManager = GetComponentInParent<EnemyManager>();
         }
@@ -57,13 +56,15 @@ public class Enemy : MonoBehaviour
     {
         if (_abilityTimer > EnemyManager.AbilityPeriod)
         {
-            if (CanUseAbility())
+            if (_canHealHimself)
             {
-                if (CurrentHealth != MaxHealth)
-                {
-                    Heal(this);
-                }   
+                Heal();
             }
+            else if (_canHealAnotherEnemy)
+            {
+                HealAnother();
+            }
+            _abilityTimer = 0;
         }
         else
         {
@@ -75,15 +76,22 @@ public class Enemy : MonoBehaviour
     {
         if (collision.rigidbody.GetComponent<Ball>() is Ball ball)
         {
-            TakeDamage(ball.DamageValue, ball.AttackType);
+            TakeDamage(ball);
         }
     }
 
-    public void TakeDamage(float damageValue, AttackType AttackType = AttackType.Default)
+    public void TakeDamage(Ball ball)
     {
-        if (AttackType == AttackType.Special || !_enemyDefence.GetDefenceState())
+        if (ball.AttackType == AttackType.Special || !_enemyDefence.GetDefenceState())
         {
-            CurrentHealth -= damageValue;
+            if (_abilityTimer > EnemyManager.AbilityPeriod && _canTransferDamage)
+            {
+                EnemyManager.TransferDamage(this, ball);
+            }
+            else
+            {
+                CurrentHealth -= ball.DamageValue;
+            }
 
             if (_isAlive = CheckDeath())
             {
@@ -103,27 +111,44 @@ public class Enemy : MonoBehaviour
         EnemyManager.EnemyCount--;
         EnemyManager.DeleteEnemyFromList(this);
         Destroy(gameObject);
-        //Debug.Log($"{gameObject.name} dead");
     }
 
-    public void Heal(Enemy target)
+    public void Heal()
     {
-        if (target.CurrentHealth != target.MaxHealth)
+        StartCoroutine(PlayParticle(_particalSystemHealHimself));
+        CurrentHealth++;
+    }
+
+    public void HealAnother()
+    {
+        bool doHeal = EnemyManager.HealEnemy(this);
+        if (doHeal) StartCoroutine(PlayParticle(_particalSystemHealAnother));
+    }
+
+    private IEnumerator PlayParticle(GameObject particle)
+    {
+        particle.SetActive(true);
+        particle.GetComponent<ParticleSystem>().Play();
+        yield return new WaitForSeconds(2);
+        particle.GetComponent<ParticleSystem>().Stop();
+        particle.SetActive(false);
+    }
+
+    public IEnumerator UseAbility()
+    {
+        WaitForSeconds wait = new WaitForSeconds(EnemyManager.AbilityPeriod);
+
+        while (true)
         {
-            target.CurrentHealth = target.MaxHealth;
-            _abilityTimer = 0f;
-            target._particalSystem.Play();
+            yield return wait;
+            if (_canHealHimself && CurrentHealth < MaxHealth)
+            {
+                Heal();
+            }
+            else if (_canHealAnotherEnemy)
+            {
+                HealAnother();
+            }
         }
-    }
-
-    public void TransferDamage(Enemy target, float damageValue)
-    {
-        target.TakeDamage(damageValue);
-        _abilityTimer = 0f;
-    }
-
-    private bool CanUseAbility()
-    {
-        return Random.Range(0, 100) <= 60 ? true : false;
     }
 }

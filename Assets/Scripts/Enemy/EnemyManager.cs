@@ -9,7 +9,7 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField] private GameObject _enemyPrefab;
 
-    public float SpawnDistance = 0.2f;
+    public float SpawnDistance;
 
     public int EnemyCount;
     public List<Enemy> EnemyList = new List<Enemy>();
@@ -35,8 +35,10 @@ public class EnemyManager : MonoBehaviour
 
     private void Awake()
     {
+        SpawnDistance = _enemiesRules.SpawnDistance;
+
         Enemy[] enemies = FindObjectsOfType<Enemy>();
-        foreach (Enemy enemy in enemies) 
+        foreach (Enemy enemy in enemies)
         {
             EnemyList.Add(enemy);
         }
@@ -52,7 +54,7 @@ public class EnemyManager : MonoBehaviour
 
     public void Reproduce(Vector3 position)
     {
-        if(CheckEmptyPlace(position))
+        if (CheckEmptyPlace(position))
         {
             GameObject newCells = Instantiate(_enemyPrefab, position, Quaternion.identity);
             Enemy newCellsEnemy = newCells.GetComponent<Enemy>();
@@ -67,15 +69,15 @@ public class EnemyManager : MonoBehaviour
                 CanHaveAbilities(),                     // can transfer damage
                 CanHaveAbilities()                      // can change position
                 );
-            
+
             newCellsEnemyReproduce.Initialize(
                 this,
                 CanHaveAbilities()                      // fast reproduction
                 );
-            
+
             if (CanHaveAbilities())
             {
-                newCellsDefense.Initialize(true);
+                newCellsDefense.Initialize(true, AbilityPeriod);
             }
             else
             {
@@ -84,7 +86,7 @@ public class EnemyManager : MonoBehaviour
 
             if (CanHaveAbilities())
             {
-                newCellSlowBall.Initialize(true);
+                newCellSlowBall.Initialize(true, AbilityPeriod);
             }
             else
             {
@@ -113,7 +115,7 @@ public class EnemyManager : MonoBehaviour
 
     private bool CanHaveAbilities()
     {
-        return (int)Random.Range(0, 100) <= _enemiesRules.ChanceGetAbility ? true: false;
+        return (int)Random.Range(0, 100) <= _enemiesRules.ChanceGetAbility ? true : false;
     }
 
     private float SetupMaxHealth()
@@ -139,13 +141,45 @@ public class EnemyManager : MonoBehaviour
     }
 
 
-    public IEnumerator HealAnotherEnemy(float time, Enemy healer)
+    public bool HealEnemy(Enemy healer)
     {
-        WaitForSeconds wait = new WaitForSeconds(time);
-
-        while (true)
+        if (EnemyList.Count > 2)
         {
-            yield return wait;
+            Enemy target;
+
+            int tryToHeal = 3;
+
+            for (var i = 0; i < tryToHeal; i++)
+            {
+                target = EnemyList[(int)Random.Range(0, EnemyList.Count - 1)];
+                if (target != healer && target.CurrentHealth < target.MaxHealth)
+                {
+                    healer.HealAnother();
+                    target.Heal();
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public void TransferDamage(Enemy hittenEnemy, Ball ball)
+    {
+        if (EnemyList.Count > 2)
+        {
+            Enemy target;
+            int tryToTransfer = 3;
+
+            for (var i = 0; i < tryToTransfer; i++)
+            {
+                target = EnemyList[(int)Random.Range(0, EnemyList.Count - 1)];
+                if (target != hittenEnemy && target.CurrentHealth < target.MaxHealth)
+                {
+                    target.TakeDamage(ball);
+                }
+            }
         }
     }
 

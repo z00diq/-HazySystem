@@ -36,7 +36,7 @@ public class SplashDamage : Ability
         {
             if (collider.GetComponent<Enemy>() is Enemy enemy)
             {
-                enemy.TakeDamage(_ball.DamageValue, _ball.AttackType);
+                enemy.TakeDamage(_ball);
             }
         }
     }
