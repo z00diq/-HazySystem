@@ -255,8 +255,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1a98cdc4ce8144b8e9f3110434222b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numberOfMurdersToNewAbility: 2
-  _countOfStartAbilities: 2
+  _numberOfMurdersToNewAbility: 16
+  _countOfStartAbilities: 6
   _multiplierForNumberOfMurdersToNewAbility: 2
   _abilities:
   - {fileID: 2727812167934235808}
@@ -278,12 +278,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DamageValue: 2
-  _ballSpeed: 15
+  _ballSpeed: 25
   _ballRigidbody: {fileID: 3973846200420259390}
   _lowerLimitOfTheDirectionOfMovement: 0.5
   _lineRenderer: {fileID: 1177537308}
-  _ballSpeedFull: 15
-  _ballSpeedSlow: 8
+  _ballSpeedFull: 20
+  _ballSpeedSlow: 10
 --- !u!114 &2727812167934235808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,7 +329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ChargeIcon>k__BackingField: {fileID: 0}
-  _timeToNextCast: 4
+  _timeToNextCast: 8
   _radiusOfCast: 4
   _splashDamagePrefab: {fileID: 5754986903708483487, guid: c9c505169642bce46a1e4d4e657b9ca0,
     type: 3}
@@ -377,8 +377,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ChargeIcon>k__BackingField: {fileID: 0}
   _timeToNextCast: 6
-  _numberOfClones: 2
-  _countOfCollisionsToDie: 5
+  _numberOfClones: 4
+  _countOfCollisionsToDie: 6
   _cloneBallPrefab: {fileID: 5380790496199341550, guid: 3fcc64d06705eb94da917aee51d2e33d,
     type: 3}
 --- !u!1 &3973846200755751613

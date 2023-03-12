@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DamageValue: 2
-  _ballSpeed: 15
+  _ballSpeed: 20
   _ballRigidbody: {fileID: 1607801306122640990}
   _lowerLimitOfTheDirectionOfMovement: 0.5
   _lineRenderer: {fileID: 2411113362531500924}
@@ -423,6 +423,21 @@ PrefabInstance:
       propertyPath: ShapeModule.m_MeshRenderer
       value: 
       objectReference: {fileID: 1607801305921323743}
+    - target: {fileID: 1964198408059057263, guid: dbd43b4fd006e244897955ca65479896,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key0.b
+      value: 0.5377358
+      objectReference: {fileID: 0}
+    - target: {fileID: 1964198408059057263, guid: dbd43b4fd006e244897955ca65479896,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key0.g
+      value: 0.5377358
+      objectReference: {fileID: 0}
+    - target: {fileID: 1964198408059057263, guid: dbd43b4fd006e244897955ca65479896,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key0.r
+      value: 0.5377358
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbd43b4fd006e244897955ca65479896, type: 3}
 --- !u!4 &169691533991174327 stripped

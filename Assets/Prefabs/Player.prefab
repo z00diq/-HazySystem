@@ -212,7 +212,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 64
-  _speed: 10
+  _speed: 18
   _playerColliderTransform: {fileID: 3869922641824862216}
   _jumpHieght: 2
   _dropHieght: 5

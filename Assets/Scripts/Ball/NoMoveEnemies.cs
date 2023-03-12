@@ -15,7 +15,7 @@ public class NoMoveEnemies : Ability
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M) && _timer > _timeToNextCast)
+        if (Input.GetKeyDown(KeyCode.E) && _timer > _timeToNextCast)
         {
             _enemyManager.StopEnemyMoving(_timeOfAction);
             _timer = 0;
