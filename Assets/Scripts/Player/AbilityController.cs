@@ -24,6 +24,8 @@ public class AbilityController : MonoBehaviour
     }
     private void Start()
     {
+        
+
         int temp = _numberOfMurdersToNewAbility; 
         for (int i = 0; i < _countOfStartAbilities; i++)
         {
