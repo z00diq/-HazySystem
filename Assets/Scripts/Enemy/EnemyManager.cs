@@ -48,9 +48,18 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public void Infestation()
+    private void Awake()
     {
         SpawnDistance = _enemiesRules.SpawnDistance;
+
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        foreach (Enemy enemy in enemies)
+        {
+            EnemyList.Add(enemy);
+        }
+
+        EnemyCount += FindObjectsOfType<Enemy>().Length;
+
         StartCoroutine(ReproduceStartDelay());
         ReproductionPeriod = _enemiesRules.ReproductionPeriodBase;
         AbilityPeriod = _enemiesRules.AbilityPeriod;

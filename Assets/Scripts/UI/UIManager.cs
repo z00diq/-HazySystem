@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
 
     public void RestartButton_OnButtonClick()
     {
-        _gameStateController.InitLevel();
+        _gameStateController.InitLevel(_gameStateController.CurrentLevelIndex);
     }
 
     public void StartGameButton_OnButtonClick()

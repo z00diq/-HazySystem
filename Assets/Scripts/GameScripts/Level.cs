@@ -19,19 +19,10 @@ public class Level : MonoBehaviour
     public Transform RightLim => _rightLim;
 
 
-    public void InitLevel(GameStateController gameStateController=null)
+    public void InitLevel(GameStateController gameStateController)
     {
-        if (gameStateController != null)
-        {
-            _gameStateController = gameStateController;
-            GameStateController.OnWin += GameStateController_OnWin;
-        }
-        else
-        {
-            gameObject.SetActive(true);
-        }
-
-        _enemyManager.Infestation();
+        _gameStateController = gameStateController;
+        GameStateController.OnWin += GameStateController_OnWin;
     }
 
     private void GameStateController_OnWin()

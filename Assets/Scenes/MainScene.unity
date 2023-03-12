@@ -270,11 +270,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e3ec4a32951ced48bd47803a56de792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentLevelIndex: 0
   _startingGameHazzard: 2
   _deathHazzardLevel: 8
   _enabledSpells: []
   _platform: {fileID: 2207366608557999805, guid: 24ef69a01047b5c4c84293cf14b6d0a1,
     type: 3}
+  _levelManager: {fileID: 640511401}
 --- !u!4 &368672080
 Transform:
   m_ObjectHideFlags: 0

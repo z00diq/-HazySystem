@@ -12,38 +12,34 @@ public class GameStateController : MonoBehaviour
     public static Action OnDestroyPlayer;
 
     public Level CurrentLevel => _currentLevel;
-
+    public int CurrentLevelIndex;
     //public static Action OnGameStart;
     [SerializeField] private float _startingGameHazzard;  
     [SerializeField] private float _deathHazzardLevel;  
     [SerializeField] private List<GameObject> _enabledSpells;
     [SerializeField] private PlayerMove _platform;
+    [SerializeField] private LevelManager _levelManager;
     private float _currentHazzard; 
     private GameState _currentGameState;
 
     private Level _currentLevel;
+    private int _currentIndex;
     private bool isPause=false;
 
-    public void InitLevel(Level level=null)
+    public void InitLevel(int index)
     {
-        if(level != null)
+        if (_currentLevel!=null)
         {
-            _currentLevel = Instantiate(level, transform.position, Quaternion.identity);
-            _currentLevel.InitLevel(this);
-        }
-        else
-        {
-           
-            foreach (Enemy enemy in _currentLevel.EnemyList)
-                Destroy(enemy.gameObject);
-            _currentLevel.EnemyList.Clear();
-
-            _currentLevel.InitLevel();
+            Destroy(_currentLevel.gameObject);
         }
 
+        Level level = _levelManager.GetLevel(index);
+        _currentLevel = Instantiate(level, transform.position, Quaternion.identity);
+        _currentLevel.InitLevel(this);
+      
         _currentGameState = GameState.PrepareGame;
         _currentHazzard = 0;
-        //OnGameStart?.Invoke();
+        _currentIndex = index;
     }
 
     public void AddNewEnabledSpell(GameObject spell)
