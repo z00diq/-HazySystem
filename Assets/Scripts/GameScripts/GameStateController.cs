@@ -12,6 +12,7 @@ public class GameStateController : MonoBehaviour
     public static Action OnDestroyPlayer;
     public static Action<float> OnGameStart;
     public static Action<float> OnEnemyCountChanged;
+    public static Action OnSpawnSlider;
 
     public Level CurrentLevel => _currentLevel;
     public int CurrentLevelIndex;
@@ -143,6 +144,7 @@ public class GameStateController : MonoBehaviour
         PlayerMove createdPlayer = Instantiate(player);
         createdPlayer.transform.position = _currentLevel.SpawnPoint.position;
         createdPlayer.SetLimites(_currentLevel.LeftLim, _currentLevel.RightLim);
+        OnSpawnSlider?.Invoke();
     }
 
     private void LooseLevel()
