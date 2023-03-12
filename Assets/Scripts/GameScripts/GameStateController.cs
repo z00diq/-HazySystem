@@ -81,7 +81,7 @@ public class GameStateController : MonoBehaviour
                 {
                     _currentGameState = GameState.Win;
                 }
-                else if (_currentHazzard == _deathHazzardLevel)
+                else if (_currentHazzard >= _deathHazzardLevel)
                 {
                     _currentGameState = GameState.Defeat;
                 }
