@@ -252,12 +252,6 @@ public class EnemyManager : MonoBehaviour
         CanMoving = true;
     }
 
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.S)) StartCoroutine(StopReproduce(1000));
-    }
-
     public bool HealEnemy(Enemy healer)
     {
         if (EnemyList.Count > 2)
