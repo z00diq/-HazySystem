@@ -10,6 +10,8 @@ public class GameStateController : MonoBehaviour
     public static Action OnPause;
     public static Action OnUnPause;
     public static Action OnDestroyPlayer;
+    public static Action<float> OnGameStart;
+    public static Action<float> OnEnemyCountChanged;
 
     public Level CurrentLevel => _currentLevel;
     public int CurrentLevelIndex;
@@ -60,11 +62,10 @@ public class GameStateController : MonoBehaviour
         switch (_currentGameState)
         {
             case GameState.PrepareGame:
-
+                OnGameStart?.Invoke(_deathHazzardLevel);
                 PauseGame();
-                _currentHazzard = _currentLevel.EnemyList.Count;
 
-                if (_currentHazzard >= _startingGameHazzard)
+                if (_currentLevel.EnemyList.Count >= _startingGameHazzard)
                 {
                     SpawnPlayer(_platform);
                     _currentGameState = GameState.Playing;
@@ -75,8 +76,12 @@ public class GameStateController : MonoBehaviour
 
                 PauseGame();
 
-                _currentHazzard = _currentLevel.EnemyList.Count;
-
+                if (_currentHazzard != _currentLevel.EnemyList.Count)
+                {
+                    _currentHazzard = _currentLevel.EnemyList.Count;
+                    OnEnemyCountChanged?.Invoke(_currentHazzard);
+                }
+                
                 if (_currentHazzard == 0)
                 {
                     _currentGameState = GameState.Win;
