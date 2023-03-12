@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,7 +16,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _loosePanel;
     [SerializeField] private GameObject _choosingLevelPanel;
     [SerializeField] private GameObject _pausePanel;
-
+    [SerializeField] private Slider _slider;
+    
     public void RestartButton_OnButtonClick()
     {
         _gameStateController.InitLevel(_gameStateController.CurrentLevelIndex);
@@ -54,13 +56,21 @@ public class UIManager : MonoBehaviour
         GameStateController.OnLoose += GameStateController_OnLoose;
         GameStateController.OnPause += GameStateController_OnPause;
         GameStateController.OnUnPause += GameStateController_OnUnPause;
+        GameStateController.OnSpawnSlider += OnSpawnSlider;
     }
+
+    private void OnSpawnSlider()
+    {
+        _slider.gameObject.SetActive(true);
+    }
+
     private void OnDisable()
     {
         GameStateController.OnWin -= GameStateController_OnWin;
         GameStateController.OnLoose -= GameStateController_OnLoose;
         GameStateController.OnPause -= GameStateController_OnPause;
         GameStateController.OnUnPause -= GameStateController_OnUnPause;
+        GameStateController.OnSpawnSlider -= OnSpawnSlider;
     }
 
     private void GameStateController_OnUnPause()
@@ -76,11 +86,13 @@ public class UIManager : MonoBehaviour
 
     private void GameStateController_OnLoose()
     {
+        _slider.gameObject.SetActive(false);
         _loosePanel.SetActive(true); 
     }
 
     private void GameStateController_OnWin()
     {
+        _slider.gameObject.SetActive(false);
         _winPanel.SetActive(true);
     }
 }
