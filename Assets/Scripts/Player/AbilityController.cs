@@ -8,12 +8,24 @@ public class AbilityController : MonoBehaviour
     [SerializeField] private List<Ability> _abilities;
     [SerializeField] private int _countOfStartAbilities;
     private int _counterOfKill;
+
     void Awake()
     {
+        int index = 0;
+        AbilityGroup abilityParent = FindAnyObjectByType<AbilityGroup>();
+        ChargeIcon[] icons = abilityParent.GetComponentsInChildren<ChargeIcon>(true);
+
+        foreach (var icon in icons)
+        {
+            _abilities[index++].ChargeIcon = icon;
+        }
+
         GameplayEventManager.OnEnemyKilled.AddListener(KilledEnemy);
     }
     private void Start()
     {
+       
+
         for (int i = 0; i < _countOfStartAbilities; i++)
         {
             RandomActivateAbility();
@@ -29,6 +41,7 @@ public class AbilityController : MonoBehaviour
             _counterOfKill -= _numberOfMurdersToNewAbility;
         }
     }
+
     private void KilledEnemy()
     {
         _counterOfKill++;

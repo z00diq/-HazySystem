@@ -137,7 +137,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 5e24c777e56646c4aa767257f4e2c245, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -207,6 +207,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c969f123fe8d2fb4bb065ffd5e10341e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ballPrefab: {fileID: 7771408274935446926, guid: 9d570df358c38664397cde42c44cf5f7,
+    type: 3}
   _layerMask:
     serializedVersion: 2
     m_Bits: 64

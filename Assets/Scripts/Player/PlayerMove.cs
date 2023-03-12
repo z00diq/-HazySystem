@@ -1,10 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-
+    [SerializeField] private Ball _ballPrefab;
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private float _speed;
     [SerializeField] private Transform _playerColliderTransform;
@@ -15,11 +17,26 @@ public class PlayerMove : MonoBehaviour
 
 
     private State _state = State.Active;
+    private Ball _currentBall;
+
     private void Start()
     {
+        GameStateController.OnDestroyPlayer += OnDestroyPlayer;
         _leftLimitation.parent = null;
         _rightLimitation.parent = null;
+        SpawnBall();
     }
+
+    private void OnDestroyPlayer()
+    {
+        if (_currentBall != null)
+        {
+            Destroy(_currentBall.gameObject);
+            _currentBall = null;
+        }
+        Destroy(gameObject);
+    }
+
     void Update()
     {
         if (_state == State.Inactive) return;
@@ -42,8 +59,25 @@ public class PlayerMove : MonoBehaviour
             }            
         }
     }
+
+
+    private void OnDestroy()
+    {
+        GameStateController.OnDestroyPlayer -= OnDestroyPlayer;
+    }
+    private void SpawnBall()
+    {
+        _currentBall = Instantiate(_ballPrefab);
+    }
+
     public void SetState(State state)
     {
         _state = state;
+    }
+
+    public void SetLimites(Transform leftLim,Transform rightLim)
+    {
+        _leftLimitation = leftLim;
+        _rightLimitation = rightLim;
     }
 }

@@ -19,7 +19,7 @@ public class EnemyManager : MonoBehaviour
 
     public UnityEvent<bool> ReproduceRuleChanged;
     public UnityEvent<bool> MovingRuleChanged;
-
+    [SerializeField] private LayerMask _layerMask; 
     [SerializeField] private bool _canReproduce = true;
     public bool CanReproduce
     {
@@ -48,18 +48,9 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private void Awake()
+    public void Infestation()
     {
         SpawnDistance = _enemiesRules.SpawnDistance;
-
-        Enemy[] enemies = FindObjectsOfType<Enemy>();
-        foreach (Enemy enemy in enemies)
-        {
-            EnemyList.Add(enemy);
-        }
-
-        EnemyCount += FindObjectsOfType<Enemy>().Length;
-
         StartCoroutine(ReproduceStartDelay());
         ReproductionPeriod = _enemiesRules.ReproductionPeriodBase;
         AbilityPeriod = _enemiesRules.AbilityPeriod;
@@ -215,7 +206,7 @@ public class EnemyManager : MonoBehaviour
 
     private bool CheckEmptyPlace(Vector3 position)
     {
-        if (Physics.CheckBox(position, Vector3.one * (_enemyPrefab.transform.localScale.x*1.1f), Quaternion.identity))
+        if (Physics.CheckBox(position, _enemyPrefab.transform.localScale/2, Quaternion.identity, _layerMask))
         {
             return false;
         }

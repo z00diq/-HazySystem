@@ -9,14 +9,16 @@ public class GameStateController : MonoBehaviour
     public static Action OnLoose;
     public static Action OnPause;
     public static Action OnUnPause;
+    public static Action OnDestroyPlayer;
 
     public Level CurrentLevel => _currentLevel;
 
     //public static Action OnGameStart;
-    [SerializeField] private float _startingGameHazzard;  /*количество заражения при котором игра начинается*/
-    [SerializeField] private float _deathHazzardLevel;  /*количество заражения при котором игра закончится*/
-    [SerializeField] private List<GameObject> _enabledSpells; /*список lоступных спеллов для получения игроком*/
-    private float _currentHazzard; /*текущее количество заражения*/ 
+    [SerializeField] private float _startingGameHazzard;  
+    [SerializeField] private float _deathHazzardLevel;  
+    [SerializeField] private List<GameObject> _enabledSpells;
+    [SerializeField] private PlayerMove _platform;
+    private float _currentHazzard; 
     private GameState _currentGameState;
 
     private Level _currentLevel;
@@ -31,6 +33,11 @@ public class GameStateController : MonoBehaviour
         }
         else
         {
+           
+            foreach (Enemy enemy in _currentLevel.EnemyList)
+                Destroy(enemy.gameObject);
+            _currentLevel.EnemyList.Clear();
+
             _currentLevel.InitLevel();
         }
 
@@ -59,28 +66,20 @@ public class GameStateController : MonoBehaviour
             case GameState.PrepareGame:
 
                 PauseGame();
+                _currentHazzard = _currentLevel.EnemyList.Count;
 
                 if (_currentHazzard >= _startingGameHazzard)
                 {
+                    SpawnPlayer(_platform);
                     _currentGameState = GameState.Playing;
-                    //SpawnPlayer(playerPrefab); - вызов игрока на арену
                 }
 
                 break;
             case GameState.Playing:
 
                 PauseGame();
-                //Активизация игрового процесса
 
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-               
-
-                if (Physics.Raycast(ray, out hit))
-                    if (hit.collider.GetComponent<Enemy>())
-                    {
-                        Destroy(hit.collider.gameObject);
-                    }
+                _currentHazzard = _currentLevel.EnemyList.Count;
 
                 if (_currentHazzard == 0)
                 {
@@ -115,16 +114,6 @@ public class GameStateController : MonoBehaviour
         }
     }
 
-    private void Enemy_OnDeath(float hazzard)
-    {
-        _currentHazzard -= hazzard;
-    }
-
-    private void Enemy_OnBorn(float hazzard)
-    {
-        _currentHazzard += hazzard;
-    }
-
     private void UIManager_OnUnPauseButtonClick()
     {
         isPause = false;
@@ -148,9 +137,11 @@ public class GameStateController : MonoBehaviour
             isPause = !isPause;
     }
 
-    private void SpawnPlayer(object playerPrefab)
+    private void SpawnPlayer(PlayerMove player)
     {
-        throw new NotImplementedException();
+        PlayerMove createdPlayer = Instantiate(player);
+        createdPlayer.transform.position = _currentLevel.SpawnPoint.position;
+        createdPlayer.SetLimites(_currentLevel.LeftLim, _currentLevel.RightLim);
     }
 
     private void LooseLevel()
@@ -168,11 +159,13 @@ public class GameStateController : MonoBehaviour
     private void UnactiveCurrentLevel()
     {
         _currentLevel.gameObject.SetActive(false);
+        OnDestroyPlayer?.Invoke();
     }
 }
 
 enum GameState
 {
+    NotGame,
     PrepareGame,
     Playing,
     Win,

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9105616593569224276}
   - component: {fileID: 9105616593569224277}
   - component: {fileID: 9105616593569224278}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EnemyManager
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -59,6 +59,9 @@ MonoBehaviour:
   MovingRuleChanged:
     m_PersistentCalls:
       m_Calls: []
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 1
   _canReproduce: 1
   _canMoving: 1
 --- !u!114 &9105616593569224278
