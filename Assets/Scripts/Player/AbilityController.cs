@@ -7,8 +7,8 @@ public class AbilityController : MonoBehaviour
     [SerializeField] private int _numberOfMurdersToNewAbility;
     [SerializeField] private List<Ability> _abilities;
     [SerializeField] private int _countOfStartAbilities;
-    private int _counterOfKill;
-
+    [SerializeField] private int _multiplierForNumberOfMurdersToNewAbility = 2;
+    private int _counterOfKills;
     void Awake()
     {
         int index = 0;
@@ -24,27 +24,26 @@ public class AbilityController : MonoBehaviour
     }
     private void Start()
     {
-       
-
+        int temp = _numberOfMurdersToNewAbility; 
         for (int i = 0; i < _countOfStartAbilities; i++)
         {
             RandomActivateAbility();
         }
-
+        _numberOfMurdersToNewAbility = temp;
     }
     private void Update()
     {
-        if (_counterOfKill >= _numberOfMurdersToNewAbility && _abilities.Count > 0)
+        if (_counterOfKills >= _numberOfMurdersToNewAbility && _abilities.Count > 0)
         {
             Debug.Log("_abilities!=null");
             RandomActivateAbility();
-            _counterOfKill -= _numberOfMurdersToNewAbility;
+            _counterOfKills -= _numberOfMurdersToNewAbility;
         }
     }
 
     private void KilledEnemy()
     {
-        _counterOfKill++;
+        _counterOfKills++;
     }
     
     private void RandomActivateAbility()
@@ -53,5 +52,12 @@ public class AbilityController : MonoBehaviour
         _abilities[randomActivateIndex].enabled = true;
         _abilities[randomActivateIndex].ChargeIcon.gameObject.SetActive(true);
         _abilities.RemoveAt(randomActivateIndex);
-    }    
+        _numberOfMurdersToNewAbility *= _multiplierForNumberOfMurdersToNewAbility;
+    }
+    
+    public int NumberOfMurdersToNewAbility
+    {
+        get { return _numberOfMurdersToNewAbility; }
+        private set { }
+    }
 }
