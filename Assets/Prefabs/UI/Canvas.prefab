@@ -167,7 +167,7 @@ RectTransform:
   - {fileID: 877150536}
   - {fileID: 40802706}
   m_Father: {fileID: 7144219427520640901}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -1707,11 +1707,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GameStartPanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 2380147785099385435, guid: 7ff98dcb852dab14eac5975689012cba,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 184.3
       objectReference: {fileID: 0}
     - target: {fileID: 3238124886518456455, guid: 7ff98dcb852dab14eac5975689012cba,
         type: 3}
