@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1a98cdc4ce8144b8e9f3110434222b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numberOfMurdersToNewAbility: 16
+  _numberOfMurdersToNewAbility: 8
   _countOfStartAbilities: 6
   _multiplierForNumberOfMurdersToNewAbility: 2
   _abilities:
@@ -297,8 +297,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ChargeIcon>k__BackingField: {fileID: 0}
-  _timeToNextCast: 5
-  _timeOfAction: 2
+  _timeToNextCast: 15
+  _timeOfAction: 10
   _scalePowerUpBall: 1.4
   _increaseDamage: 5
 --- !u!114 &1037401489
@@ -346,8 +346,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ChargeIcon>k__BackingField: {fileID: 0}
-  _timeToNextCast: 10
-  _timeOfAction: 3
+  _timeToNextCast: 16
+  _timeOfAction: 7
 --- !u!114 &2420730375300870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,7 +362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ChargeIcon>k__BackingField: {fileID: 0}
   _timeToNextCast: 10
-  _timeOfAction: 3
+  _timeOfAction: 10
 --- !u!114 &1861848130
 MonoBehaviour:
   m_ObjectHideFlags: 0
