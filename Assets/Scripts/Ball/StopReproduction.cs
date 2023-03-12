@@ -18,7 +18,7 @@ public class StopReproduction : Ability
     {
         if (Input.GetKeyDown(KeyCode.R) && _timer > _timeToNextCast)
         {
-            _enemyManager.StopReproduce(_timeOfAction);
+            StartCoroutine(_enemyManager.StopReproduce(_timeOfAction));
             _timer = 0;
         }
         _timer += Time.deltaTime;

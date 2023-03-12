@@ -272,7 +272,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentLevelIndex: 0
   _startingGameHazzard: 2
-  _deathHazzardLevel: 8
+  _deathHazzardLevel: 20
   _enabledSpells: []
   _platform: {fileID: 2207366608557999805, guid: 24ef69a01047b5c4c84293cf14b6d0a1,
     type: 3}
