@@ -30,11 +30,8 @@ public class EnemySlowBall : MonoBehaviour
         {
             if (_canSlowBall && ball.AttackType == AttackType.Default)
             {
-                if (_enemy.CurrentHealth > ball.DamageValue)
-                {
-                    StartCoroutine(SlowBall(ball));
-                    StartCoroutine(ball.SlowBallForTime(_slowBallDuration));
-                }
+                StartCoroutine(SlowBall(ball));
+                ball.StartCuroutineSlowBallForTime(_slowBallDuration);
             }
         }
     }

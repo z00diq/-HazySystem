@@ -65,7 +65,7 @@ public class Ball : MonoBehaviour
         //исправление для того, чтобы не было постоянного горизонтального или вертикального движения
         if (_currentBallState == State.Active)
         {
-            _ballRigidbody.velocity = _ballRigidbody.velocity.normalized * _ballSpeed;
+            ChangeVelocityMagnitude(_ballSpeed);
             if (_ballRigidbody.velocity.x == 0f)
                 _ballRigidbody.velocity = _ballRigidbody.velocity + 20f * Vector3.right;
             if (_ballRigidbody.velocity.y == 0f)
@@ -121,12 +121,20 @@ public class Ball : MonoBehaviour
             _lineRenderer.enabled = true;
     }
 
-
-    public IEnumerator SlowBallForTime(float time)
+    public void StartCuroutineSlowBallForTime(float time)
+    {
+        StartCoroutine(SlowBallForTime(time));
+    }
+    private IEnumerator SlowBallForTime(float time)
     {
         _ballSpeed = _ballSpeedSlow;
         yield return new WaitForSeconds(time);
         _ballSpeed = _ballSpeedFull;
+        ChangeVelocityMagnitude(_ballSpeed);
     }
     
+    private void ChangeVelocityMagnitude(float velocity)
+    {
+        _ballRigidbody.velocity = _ballRigidbody.velocity.normalized * _ballSpeed;
+    }
 }

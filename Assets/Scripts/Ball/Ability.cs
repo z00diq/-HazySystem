@@ -12,6 +12,7 @@ public class Ability : MonoBehaviour
     protected virtual void Start()
     {
         _timer = _timeToNextCast;
+        ChargeIcon.gameObject.SetActive(this.enabled);
     }
 
     
