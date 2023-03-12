@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AbilityController : MonoBehaviour
 {
-    [SerializeField] private int _numberOfMurdersToNewAbility;
+    [SerializeField] private int _numberOfMurdersToNewAbility = 8;
     [SerializeField] private int _countOfStartAbilities = 2;
     [SerializeField] private int _multiplierForNumberOfMurdersToNewAbility = 2;
     [SerializeField] private List<Ability> _abilities;
@@ -54,7 +54,11 @@ public class AbilityController : MonoBehaviour
         _abilities[randomActivateIndex].enabled = true;
         _abilities[randomActivateIndex].ChargeIcon.gameObject.SetActive(true);
         _abilities.RemoveAt(randomActivateIndex);
-        _numberOfMurdersToNewAbility *= _multiplierForNumberOfMurdersToNewAbility;
+        if (_numberOfMurdersToNewAbility < 31)
+        {
+            _numberOfMurdersToNewAbility *= _multiplierForNumberOfMurdersToNewAbility;
+        }
+        
     }
     
     public int NumberOfMurdersToNewAbility
