@@ -215,7 +215,7 @@ public class EnemyManager : MonoBehaviour
 
     private bool CheckEmptyPlace(Vector3 position)
     {
-        if (Physics.CheckBox(position, _enemyPrefab.transform.localScale/2, Quaternion.identity, _layerMask))
+        if (Physics.CheckBox(position, _enemyPrefab.transform.localScale/1.5f, Quaternion.identity))
         {
             return false;
         }
