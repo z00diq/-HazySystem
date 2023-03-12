@@ -9,6 +9,7 @@ public class EnemyReproduce : MonoBehaviour
     [SerializeField] private EnemyManager _enemyManager;
 
     [SerializeField] private float _reproductionPeriod;
+    [SerializeField] private bool _canFastReproduction;
 
     private Coroutine ReproduceCoroutine;
 
@@ -16,10 +17,14 @@ public class EnemyReproduce : MonoBehaviour
 
     [SerializeField] private EnemyMoving _enemyMoving;
 
+    [SerializeField] private GameObject ShowCanFastReproduceVisualOnObject;
+
     public void Initialize(EnemyManager enemyManager, bool haveFastReproduction)
     {
         _enemyManager = enemyManager;
+        _canFastReproduction= haveFastReproduction;
         SetupReproductionPeriod(haveFastReproduction);
+        ShowCanFastReproduceVisual();
     }
 
     private void Start()
@@ -30,7 +35,9 @@ public class EnemyReproduce : MonoBehaviour
         }
 
         _enemyManager.ReproduceRuleChanged.AddListener(OnReproduceChanged);
+        SetupReproductionPeriod(_canFastReproduction);
         StartReproduceCoroutine();
+        ShowCanFastReproduceVisual();
     }
 
     private void OnDisable()
@@ -112,6 +119,14 @@ public class EnemyReproduce : MonoBehaviour
         float offset = Random.Range(-0.5f, 1f);
 
         _reproductionPeriod = isActive ? _enemyManager.ReproductionPeriod / 2 + offset : _enemyManager.ReproductionPeriod + offset;
-        _reproductionPeriod = Mathf.Clamp(_reproductionPeriod, 1, float.PositiveInfinity);
+        _reproductionPeriod = Mathf.Clamp(_reproductionPeriod, 0.1f, float.PositiveInfinity);
+    }
+
+    private void ShowCanFastReproduceVisual()
+    {
+        if (_canFastReproduction)
+        {
+            ShowCanFastReproduceVisualOnObject.SetActive(true);
+        }
     }
 }

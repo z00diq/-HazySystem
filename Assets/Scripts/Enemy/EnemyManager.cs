@@ -59,20 +59,20 @@ public class EnemyManager : MonoBehaviour
         }
 
         EnemyCount += FindObjectsOfType<Enemy>().Length;
-
-        StartCoroutine(ReproduceStartDelay());
         ReproductionPeriod = _enemiesRules.ReproductionPeriodBase;
         AbilityPeriod = _enemiesRules.AbilityPeriod;
+
+        StartCoroutine(ReproduceStartDelay());
 
         Reproduce(transform.position);
     }
 
     private IEnumerator ReproduceStartDelay()
     {
-        WaitForSeconds wait = new WaitForSeconds(_enemiesRules.ReproductionDelay);
+        WaitForSeconds wait1 = new WaitForSeconds(_enemiesRules.ReproductionDelay);
 
         CanReproduce = false;
-        yield return wait;
+        yield return wait1;
         CanReproduce = true;
     }
 
@@ -210,6 +210,9 @@ public class EnemyManager : MonoBehaviour
             newCells.gameObject.name = "Enemy" + EnemyCount;
             EnemyCount++;
             EnemyList.Add(newCellsEnemy);
+
+            ReproductionPeriod += 0.5f;
+            ReproductionPeriod = Mathf.Clamp(ReproductionPeriod, _enemiesRules.ReproductionPeriodBase, _enemiesRules.ReproductionPeriodBase * 10);
         }
     }
 
@@ -232,7 +235,7 @@ public class EnemyManager : MonoBehaviour
 
     private float SetupMaxHealth(bool value)
     {
-        return value ? _enemiesRules.MaximumHealthForCells : _enemiesRules.MinimumHealthForCells;
+        return value ? (int)Random.Range(_enemiesRules.MinimumHealthForCells, _enemiesRules.MaximumHealthForCells) : _enemiesRules.MinimumHealthForCells;
     }
 
     public IEnumerator StopReproduce(float time)

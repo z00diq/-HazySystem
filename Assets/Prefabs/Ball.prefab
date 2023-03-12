@@ -256,14 +256,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _numberOfMurdersToNewAbility: 2
+  _countOfStartAbilities: 2
+  _multiplierForNumberOfMurdersToNewAbility: 2
   _abilities:
   - {fileID: 2727812167934235808}
+  - {fileID: 1037401489}
   - {fileID: 7263013594002002203}
   - {fileID: 2922037637181761815}
   - {fileID: 2420730375300870}
   - {fileID: 1861848130}
-  - {fileID: 1037401489}
-  _countOfStartAbilities: 3
 --- !u!114 &7771408274935446926
 MonoBehaviour:
   m_ObjectHideFlags: 0

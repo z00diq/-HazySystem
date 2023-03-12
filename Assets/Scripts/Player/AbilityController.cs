@@ -5,9 +5,9 @@ using UnityEngine;
 public class AbilityController : MonoBehaviour
 {
     [SerializeField] private int _numberOfMurdersToNewAbility;
-    [SerializeField] private List<Ability> _abilities;
-    [SerializeField] private int _countOfStartAbilities;
+    [SerializeField] private int _countOfStartAbilities = 2;
     [SerializeField] private int _multiplierForNumberOfMurdersToNewAbility = 2;
+    [SerializeField] private List<Ability> _abilities;
     private int _counterOfKills;
     void Awake()
     {
@@ -24,6 +24,8 @@ public class AbilityController : MonoBehaviour
     }
     private void Start()
     {
+        
+
         int temp = _numberOfMurdersToNewAbility; 
         for (int i = 0; i < _countOfStartAbilities; i++)
         {

@@ -12,6 +12,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject _particalSystemTransferIn;
     [SerializeField] private GameObject _particalSystemTransferOut;
 
+    [SerializeField] private List<GameObject> HP;
+    [SerializeField] private GameObject HealVisualOnObject;
+
     // link to the higher mind
     public EnemyManager EnemyManager;
 
@@ -39,6 +42,9 @@ public class Enemy : MonoBehaviour
         _canHealHimself = canHealHimself;
         _canHealAnotherEnemy = canHealAnotherEnemy;
         _canTransferDamage = canTransferDamage;
+
+        ShowHP();
+        ShowCanHeal();
     }
 
     private void Awake()
@@ -47,6 +53,9 @@ public class Enemy : MonoBehaviour
         {
             EnemyManager = FindObjectOfType<EnemyManager>();
         }
+
+        ShowHP();
+        ShowCanHeal();
     }
 
     private void Update()
@@ -90,11 +99,13 @@ public class Enemy : MonoBehaviour
                 if (!EnemyManager.TransferDamage(this, ball))
                 {
                     CurrentHealth -= ball.DamageValue;
+                    ShowHP();
                 }
             }
             else
             {
                 CurrentHealth -= ball.DamageValue;
+                ShowHP();
             }
 
             if (CheckDeath())
@@ -124,6 +135,7 @@ public class Enemy : MonoBehaviour
             StartCoroutine(PlayParticle(_particalSystemHealHimself));
             CurrentHealth++;
             _abilityTimer = 0;
+            ShowHP();
         }
     }
 
@@ -151,5 +163,28 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(4);
         particle.GetComponent<ParticleSystem>().Stop();
         particle.SetActive(false);
+    }
+
+    private void ShowHP()
+    {
+        for (int i = 0; i < (int)MaxHealth; i++)
+        {
+            if (i < (int)CurrentHealth)
+            {
+                HP[i].SetActive(true);
+            }
+            else
+            {
+                HP[i].SetActive(false);
+            }
+        }
+    }
+
+    private void ShowCanHeal()
+    {
+        if (_canHealHimself || _canHealAnotherEnemy)
+        {
+            HealVisualOnObject.SetActive(true);
+        }
     }
 }
