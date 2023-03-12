@@ -77,8 +77,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnDistance: 0.5
-  ReproductionDelay: 2
-  ReproductionPeriodBase: 10
+  ReproductionDelay: 0.1
+  ReproductionPeriodBase: 6
   AbilityPeriod: 10
   MinimumHealthForCells: 1
   MaximumHealthForCells: 5
@@ -86,9 +86,9 @@ MonoBehaviour:
   CanHaveFastReproduction: 1
   CanHaveBiggerHealth: 1
   CanDefence: 1
-  CanSlowBall: 0
-  CanHealHimself: 0
+  CanSlowBall: 1
+  CanHealHimself: 1
   CanHealAnother: 1
-  CanTransferDamage: 0
-  CanChangePosition: 0
+  CanTransferDamage: 1
+  CanChangePosition: 1
   EnemyMaximumAbilities: 3
