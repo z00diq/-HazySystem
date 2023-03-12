@@ -256,7 +256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _numberOfMurdersToNewAbility: 8
-  _countOfStartAbilities: 6
+  _countOfStartAbilities: 2
   _multiplierForNumberOfMurdersToNewAbility: 2
   _abilities:
   - {fileID: 2727812167934235808}
@@ -282,8 +282,8 @@ MonoBehaviour:
   _ballRigidbody: {fileID: 3973846200420259390}
   _lowerLimitOfTheDirectionOfMovement: 0.5
   _lineRenderer: {fileID: 1177537308}
-  _ballSpeedFull: 20
-  _ballSpeedSlow: 10
+  _ballSpeedFull: 16
+  _ballSpeedSlow: 8
 --- !u!114 &2727812167934235808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,8 +297,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ChargeIcon>k__BackingField: {fileID: 0}
-  _timeToNextCast: 15
-  _timeOfAction: 10
+  _timeToNextCast: 20
+  _timeOfAction: 15
   _scalePowerUpBall: 1.4
   _increaseDamage: 5
 --- !u!114 &1037401489

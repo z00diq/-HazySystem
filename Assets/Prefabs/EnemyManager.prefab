@@ -81,7 +81,7 @@ MonoBehaviour:
   ReproductionPeriodBase: 6
   AbilityPeriod: 10
   MinimumHealthForCells: 3
-  MaximumHealthForCells: 5
+  MaximumHealthForCells: 7
   ChanceGetAbility: 50
   CanHaveFastReproduction: 1
   CanHaveBiggerHealth: 1
