@@ -12,16 +12,19 @@ public class EnemySlowBall : MonoBehaviour
     [SerializeField] private bool _canSlowBall;
     [SerializeField] private float _slowBallDuration;
     private float _slowBallPeriod;
+    [SerializeField] private GameObject ShowSlowBallVisualOnObject;
 
     private void Awake()
     {
         _enemyManager = _enemy.EnemyManager;
+        ShowSlowballVisual();
     }
 
     public void Initialize(bool canSlowBall, float SlowBallCooldown)
     {
         _canSlowBall = canSlowBall;
         _slowBallPeriod= SlowBallCooldown;
+        ShowSlowballVisual();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -43,5 +46,13 @@ public class EnemySlowBall : MonoBehaviour
         yield return new WaitForSeconds(_slowBallPeriod);
 
         _canSlowBall = true;
+    }
+
+    private void ShowSlowballVisual()
+    {
+        if (_canSlowBall)
+        {
+            ShowSlowBallVisualOnObject.SetActive(true);
+        }
     }
 }
