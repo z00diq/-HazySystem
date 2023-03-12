@@ -66,9 +66,9 @@ public class Ball : MonoBehaviour
         if (_currentBallState == State.Active)
         {
             ChangeVelocityMagnitude(_ballSpeed);
-            if (_ballRigidbody.velocity.x == 0f)
+            if (_ballRigidbody.velocity.x <= 0.01f)
                 _ballRigidbody.velocity = _ballRigidbody.velocity + 20f * Vector3.right;
-            if (_ballRigidbody.velocity.y == 0f)
+            if (_ballRigidbody.velocity.y <= 0.01f)
                 _ballRigidbody.velocity = _ballRigidbody.velocity + 20f * Vector3.up;
         }
         
