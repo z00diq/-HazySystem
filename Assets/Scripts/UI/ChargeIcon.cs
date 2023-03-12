@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class ChargeIcon : MonoBehaviour
 {
     private Image _background;
-
-    private void Start()
+    private void Awake()
     {
         _background = GetComponent<Image>();
     }

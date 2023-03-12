@@ -263,7 +263,7 @@ MonoBehaviour:
   - {fileID: 2922037637181761815}
   - {fileID: 2420730375300870}
   - {fileID: 1861848130}
-  _countOfStartAbilities: 1
+  _countOfStartAbilities: 2
   _multiplierForNumberOfMurdersToNewAbility: 2
 --- !u!114 &7771408274935446926
 MonoBehaviour:
