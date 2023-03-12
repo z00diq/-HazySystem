@@ -798,11 +798,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameStartPanel
       objectReference: {fileID: 0}
-    - target: {fileID: 2380147785099385435, guid: 7ff98dcb852dab14eac5975689012cba,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 184.3
-      objectReference: {fileID: 0}
     - target: {fileID: 3238124886518456455, guid: 7ff98dcb852dab14eac5975689012cba,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
